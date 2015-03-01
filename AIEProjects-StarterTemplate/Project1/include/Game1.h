@@ -35,7 +35,6 @@ protected:
 
 	Graph*		graph;
 	vec3		mousePosition;
-	Input*		inputInstance;
 };
 
 #endif

@@ -9,7 +9,6 @@
 Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscreen, const char *title) : Application(windowWidth, windowHeight, fullscreen, title)
 {
 	m_spritebatch = SpriteBatch::Factory::Create(this, SpriteBatch::GL3);
-	inputInstance = Input::GetSingleton();
 
 	t = new Texture("./Images/nodeTexture.png");//box0_256.png");
 
@@ -52,7 +51,7 @@ Game1::~Game1()
 
 void Game1::Update(float deltaTime)
 {
-	if (inputInstance->WasMouseButtonPressed()
+	graph->Update();
 }
 
 void Game1::Draw()

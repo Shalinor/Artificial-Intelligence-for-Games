@@ -10,6 +10,7 @@
 #include "Node.h"
 #include <iostream>
 #include "SpriteBatch.h"
+#include "Input.h"
 
 
 using	glm::vec3;
@@ -34,8 +35,14 @@ public:
 	void	DisplayToConsole();
 	void	DisplayToScreen(SpriteBatch* spriteBatch_, Texture* texture_);
 
+	void	Update();
+
 protected:
+	Input*	input; 
+	
 	bool	directed;
+	bool	mouseLeftReleased;
+	bool	mouseRightReleased;
 
 	std::vector<Node*>	nodes;
 };

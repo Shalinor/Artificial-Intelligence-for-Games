@@ -13,7 +13,17 @@ Create a "Game" class that inherits from "Application"
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
+
+#define GLM_FORCE_PURE
+
 #include "glfw3.h"
+
+#include <glm/glm.hpp>
+#include <glm/ext.hpp>
+
+using	glm::vec3;
+using	glm::vec4;
+using	glm::mat4;
 
 
 class Input;

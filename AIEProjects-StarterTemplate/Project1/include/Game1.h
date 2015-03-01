@@ -7,7 +7,11 @@ Description:
 #define GAME1_H
 
 #include "Application.h"
+
 class SpriteBatch;
+class Texture;		//<- I don't like this method, I know it avoids polluting namespace, but meh...
+class Graph;
+class Input;
 
 class Game1 : public Application
 {
@@ -25,9 +29,13 @@ public:
 
 protected:
 
-	SpriteBatch *m_spritebatch;
+	SpriteBatch	*m_spritebatch;
 
-private:
+	Texture*	t;
+
+	Graph*		graph;
+	vec3		mousePosition;
+	Input*		inputInstance;
 };
 
 #endif

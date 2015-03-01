@@ -1,93 +1,95 @@
 #include "Graph.h"
 
-Graph::Graph()
+
+Graph::Graph(bool directed_)
 {
+	directed = directed_;
 }
+
 
 Graph::~Graph()
 {
-	nodeList.clear();
+	nodes.clear();
 }
 
-Graph::Node::Node(Vector2 data_)
+void Graph::AddNode(Node* node_)
 {
-	this->data = data_;
+	//Do we need to check for pre-existing node???
+	nodes.push_back(node_);
 }
 
-Graph::Node::~Node()
+/*NEEDS TO BE WORKED*/
+void Graph::RemoveNode(Node* node_)
 {
-}
+	std::vector<Node*>::iterator temp;
 
-Graph::Edge::Edge(Node* start_, Node* end_, float cost_)
-{
-	this->start = start_;
-	this->end = end_;
-	this->cost = cost_;
-}
-
-Graph::Edge::~Edge()
-{
-	delete start;
-	delete end;
-}
-
-Graph::Node* Graph::AddNode(Vector2 data_)
-{
-	Graph::Node* temp = new Graph::Node(data_);
-	nodeList.push_back(temp);
-
-	return temp;
-}
-
-Graph::Node* Graph::FindNode(Vector2 data_)
-{
-	for (int i = 0; i < nodeList.size(); ++i)
+	//iterate through nodes and call removeEdge on each passing in (*i) as start_ and node_ as end_
+	for (std::vector<Node*>::iterator i = nodes.begin(); i != nodes.end(); ++i)
 	{
-		if (nodeList[i]->data == data_)
+		(*i)->RemoveEdge((*i), node_);
+
+		if ((*i) == node_)
 		{
-			return nodeList[i];
+			temp = i;
 		}
 	}
 
+	nodes.erase(temp);
+}
+
+Node* Graph::FindNode(vec3 position_)
+{
+	for (std::vector<Node*>::iterator i = nodes.begin(); i != nodes.end(); ++i)
+	{
+		if ((*i)->position == position_)
+		{
+			return (*i);
+		}
+	}
+
+	//Not found
 	return NULL;
 }
 
-void Graph::RemoveNode(Node *pNode_)
+void Graph::AddEdge(Node* nodeAlpha_, Node* nodeBeta_)
 {
-	/*
-	for (int iterator = nodeList.begin; iterator != nodeList.end; ++iterator)
+	nodeAlpha_->AddEdge(nodeAlpha_, nodeBeta_);
+
+	//directed_ assumes nodeAlpha -> nodeBeta only
+	if (!directed)
 	{
-		if (nodeList[iterator] == pNode_)
-		{
-			//nodeList.erase(iterator);
-		}
+		nodeBeta_->AddEdge(nodeBeta_, nodeAlpha_);
 	}
-	*/
 }
 
-void Graph::ConnectNodes(Node *nodeA_, Node *nodeB_, float cost_/* edge data (cost or something) */)
+void Graph::RemoveEdge(Node* nodeAlpha_, Node* nodeBeta_)
 {
-//	edgeList.push_back(Graph::Edge(nodeA_, nodeB_, cost_));
+	nodeAlpha_->RemoveEdge(nodeAlpha_, nodeBeta_);
+
+	//directed_ assumes nodeAlpha -> nodeBeta only
+	if (!directed)
+	{
+		nodeBeta_->RemoveEdge(nodeBeta_, nodeAlpha_);
+	}
 }
 
-/*
-
-class Graph
+void	Graph::DisplayToConsole()
 {
-public:
-	Graph();
-	virtual ~Graph();
+	for (int i = 0; i != nodes.size(); ++i)
+	{
+		std::cout << "Node ";
+		nodes[i]->DisplayPosition();
+		std::cout << "\n";
 
-	Node *AddNode(Vector2 data_);
-	Node *FindNode(Vector2 data_);	//Find node with value
-	void RemoveNode(Node *pNode_);	//Remove the given node
+		nodes[i]->DisplayEdgesToConsole();
+	}
+}
 
-	void ConnectNodes(Node *nodeA_, Node *nodeB_, int cost_/* edge data (cost or something) *///);
-	/*
-protected:
-	//List of Nodes
-	// (which container type are you going to use)
-	std::vector<Node*>	nodeList;
-};
-
-*/
+void	Graph::DisplayToScreen(SpriteBatch* spriteBatch_, Texture* texture_)
+{
+	for (int i = 0; i != nodes.size(); ++i)
+	{
+		nodes[i]->DisplayEdgesToScreen(spriteBatch_, texture_); 
+		spriteBatch_->DrawSprite(texture_, nodes[i]->position.x, nodes[i]->position.y, 10.f, 10.f);
+	}
+}

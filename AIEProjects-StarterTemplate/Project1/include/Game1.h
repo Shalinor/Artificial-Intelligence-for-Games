@@ -31,7 +31,9 @@ protected:
 
 	SpriteBatch	*m_spritebatch;
 
-	Texture*	t;
+	//Texture*	t;
+	Texture*	t1;
+	Texture*	t2;
 
 	Graph*		graph;
 	vec3		mousePosition;

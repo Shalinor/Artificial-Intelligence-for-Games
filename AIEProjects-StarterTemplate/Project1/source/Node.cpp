@@ -4,6 +4,21 @@
 Node::Node(vec3 position_)
 {
 	position = position_;
+	traversed = false;
+}
+
+Node::Node(vec3 position_, Texture* untraversed_, Texture* traversed_)
+{
+	//Really bad, but just for testing the traversals against slides...
+	static int id_ = -1;
+	id = ++id_;
+
+	position = position_;
+
+	untraversedTexture = untraversed_;
+	traversedTexture = traversed_;
+
+	traversed = false;
 }
 
 Node::~Node()
@@ -13,7 +28,7 @@ Node::~Node()
 
 void	Node::AddEdge(Node* start_, Node* end_)
 {
-	edges.push_back(new Edge(start_, end_));	
+	edges.push_back(new Edge(start_, end_));
 }
 
 void	Node::RemoveEdge(Node* start_, Node* end_)
@@ -41,12 +56,34 @@ void	Node::DisplayEdgesToConsole()
 	}
 }
 
-void	Node::DisplayEdgesToScreen(SpriteBatch* spriteBatch_, Texture* texture_)
+void	Node::DisplayEdgesToScreen(SpriteBatch* spriteBatch_)
 {
 	for (int i = 0; i != edges.size(); ++i)
 	{
 		spriteBatch_->DrawLine(edges[i]->start->position.x, edges[i]->start->position.y, edges[i]->end->position.x, edges[i]->end->position.y);
 	}
+}
+
+void	Node::DisplayNodeToScreen(SpriteBatch* spriteBatch_)
+{
+	if (traversed)
+	{
+		spriteBatch_->DrawSprite(traversedTexture, position.x, position.y, 10.f, 10.f);
+	}
+	else	//untraversed
+	{
+		spriteBatch_->DrawSprite(untraversedTexture, position.x, position.y, 10.f, 10.f);
+	}
+}
+
+Node*	Node::GetLinkedNode(int edgeNumber_)
+{
+	if (edgeNumber_ <= edges.size())
+	{
+		return edges[edgeNumber_]->end;
+	}
+
+	else return NULL;
 }
 
 

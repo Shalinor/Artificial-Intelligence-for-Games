@@ -6,6 +6,7 @@
 #include <glm/ext.hpp>
 
 #include <vector>
+#include <deque>
 
 #include "Node.h"
 #include <iostream>
@@ -34,8 +35,13 @@ public:
 	void	RemoveEdge(Node* nodeAlpha_, Node* nodeBeta_);
 	void	DisplayToConsole();
 	void	DisplayToScreen(SpriteBatch* spriteBatch_, Texture* texture_);
+	void	DisplayToScreen(SpriteBatch* spriteBatch_);	//If Nodes already know their textures...
 
 	void	Update();
+	void	Update(Texture* t1, Texture* t2);
+
+	void	TraverseDFS();
+	void	TraverseBFS();
 
 protected:
 	Input*	input; 
@@ -44,5 +50,11 @@ protected:
 	bool	mouseLeftReleased;
 	bool	mouseRightReleased;
 
+	bool	traversed;
+
 	std::vector<Node*>	nodes;
+	std::deque<Node*>	traversal;
+
+	void	ClearTraversal();
+	//void	DisplayTraversal(Node* nodeToDisplay_);	//This probably needs something passed in - either node or edge, probably node...
 };

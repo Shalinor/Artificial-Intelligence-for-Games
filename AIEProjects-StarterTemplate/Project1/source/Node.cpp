@@ -23,6 +23,11 @@ Node::Node(vec3 position_, Texture* untraversed_, Texture* traversed_)
 
 Node::~Node()
 {
+	for (auto iterator = edges.begin(); iterator != edges.end(); ++iterator)
+	{
+		delete (*iterator);
+	}
+
 	edges.clear();
 }
 

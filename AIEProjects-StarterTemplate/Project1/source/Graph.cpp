@@ -14,6 +14,16 @@ Graph::Graph(bool directed_)
 
 Graph::~Graph()
 {
+	for (auto iterator = nodes.begin(); iterator != nodes.end(); ++iterator)
+	{
+		delete (*iterator);
+	}
+
+	for (auto iterator = traversal.begin(); iterator != traversal.end(); ++iterator)
+	{
+		delete (*iterator);
+	}
+
 	nodes.clear();
 	traversal.clear();
 }

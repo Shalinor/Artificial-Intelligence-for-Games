@@ -1,0 +1,20 @@
+﻿Build started 14/03/2015 5:57:51 PM.
+     1>Project "D:\Github Repositories\Artificial-Intelligence-for-games\GraphTraversalExercises\GraphTraversalExercises\GraphTraversalExercises.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Iinclude\ /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt source\Graph.cpp source\main.cpp
+         Graph.cpp
+     1>d:\github repositories\artificial-intelligence-for-games\graphtraversalexercises\graphtraversalexercises\source\graph.cpp(69): error C3867: 'Graph::Node::CompareNodes': function call missing argument list; use '&Graph::Node::CompareNodes' to create a pointer to member
+     1>d:\github repositories\artificial-intelligence-for-games\graphtraversalexercises\graphtraversalexercises\source\graph.cpp(69): error C2660: 'std::list<Graph::Node *,std::allocator<_Ty>>::sort' : function does not take 1 arguments
+                 with
+                 [
+                     _Ty=Graph::Node *
+                 ]
+         Generating Code...
+         Compiling...
+         main.cpp
+         Generating Code...
+     1>Done Building Project "D:\Github Repositories\Artificial-Intelligence-for-games\GraphTraversalExercises\GraphTraversalExercises\GraphTraversalExercises.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:01.61

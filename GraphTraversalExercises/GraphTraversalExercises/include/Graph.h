@@ -41,10 +41,10 @@ public:
 			dos = inc;
 		}
 
-		bool CompareNodes(const Graph::Node first, const Graph::Node second)
-		{
-			return first.dos < second.dos;
-		}
+		//bool CompareNodes(const Graph::Node first, const Graph::Node second)
+		//{
+		//	return first.dos < second.dos;
+		//}
 	};
 
 	~Graph()
@@ -69,13 +69,13 @@ public:
 	}
 
 	void ResetDOS();
-	void TraverseGraph(Graph::Node* startNode);
+	void TraverseGraph(Graph::Node* startNode_, bool breadthFirst_);	//Pass in false for depthFirst
 
-	void PrintBFS();
-	void PrintBFS(Graph::Node* startNode);
+	//void PrintBFS();
+	//void PrintBFS(Graph::Node* startNode);
 
-	void PrintDFS();
-	void PrintDFS(Graph::Node* startNode);
+	//void PrintDFS();
+	//void PrintDFS(Graph::Node* startNode);
 
 private:
 	std::vector<Node*>		nodes;
@@ -96,6 +96,12 @@ Procedure BFS(startNode)
 
 	While openList is not empty
 
+		if processing as BFS
+			sort openList ascending by degreesOfSeperation
+
+		if processing as DFS
+			sort openList descending by degreesOfSeperation
+
 		Let currentNode = next item in openList
 
 		//Process the node, do what you want with it. EG:
@@ -107,5 +113,5 @@ Procedure BFS(startNode)
 		for all connections c in currentNode
 			if c is not on closedList
 				let c.degreesOfSeperation = currentNode.degreesOfSeperation + 1	//This is added to allow for degrees of seperation
-					Add c to openList if not in closedList
+					Add c to openList //if not in closedList
 */

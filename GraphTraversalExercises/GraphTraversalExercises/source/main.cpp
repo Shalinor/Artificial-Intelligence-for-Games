@@ -35,11 +35,9 @@ int main(int numArgs, char** args)
 	//printf("\n");
 	//graph->PrintDFS(a);
 
-	graph->TraverseGraph(a);
-
-	graph->PrintBFS();
+	graph->TraverseGraph(a, true);
 	printf("\n");
-	graph->PrintDFS();
+	graph->TraverseGraph(a, false);
 
 	printf("\n");
 	system("pause");

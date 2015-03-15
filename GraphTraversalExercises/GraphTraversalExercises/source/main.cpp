@@ -4,17 +4,49 @@ int main(int numArgs, char** args)
 {
 	Graph* graph = new Graph();
 
+	float temp = 0;
+
 	Graph::Node *a, *b, *c, *d, *e, *f, *g, *h, *i, *j;
-	a = graph->AddNode('a', 0);
-	b = graph->AddNode('b', 0);
-	c = graph->AddNode('c', 0);
-	d = graph->AddNode('d', 0);
-	e = graph->AddNode('e', 0);
-	f = graph->AddNode('f', 0);
-	g = graph->AddNode('g', 0);
-	h = graph->AddNode('h', 0);
-	i = graph->AddNode('i', 0);
-	j = graph->AddNode('j', 0);
+
+	/*Graph::Node *a(Vector2(temp));
+	temp += 10.f;
+	Graph::Node *b(Vector2(temp));
+	temp += 10.f;
+	Graph::Node *c(Vector2(temp));
+	temp += 10.f;
+	Graph::Node *d(Vector2(temp));
+	temp += 10.f;
+	Graph::Node *e(Vector2(temp));
+	temp += 10.f;
+	Graph::Node *f(Vector2(temp));
+	temp += 10.f;
+	Graph::Node *g(Vector2(temp));
+	temp += 10.f;
+	Graph::Node *h(Vector2(temp));
+	temp += 10.f;
+	Graph::Node *i(Vector2(temp));
+	temp += 10.f;
+	Graph::Node *j(Vector2(temp));*/
+
+	a = graph->AddNode(temp, temp);
+	temp += 10.f;
+	b = graph->AddNode(temp, temp);
+	temp += 10.f;
+	c = graph->AddNode(temp, temp);
+	temp += 10.f;
+	d = graph->AddNode(temp, temp);
+	temp += 10.f;
+	e = graph->AddNode(temp, temp);
+	temp += 10.f;
+	f = graph->AddNode(temp, temp);
+	temp += 10.f;
+	g = graph->AddNode(temp, temp);
+	temp += 10.f;
+	h = graph->AddNode(temp, temp);
+	temp += 10.f;
+	i = graph->AddNode(temp, temp);
+	temp += 10.f;
+	j = graph->AddNode(temp, temp);
 
 	graph->AddConnection(a, b);
 	graph->AddConnection(a, d);
@@ -35,9 +67,14 @@ int main(int numArgs, char** args)
 	//printf("\n");
 	//graph->PrintDFS(a);
 
-	graph->TraverseGraph(a, true);
-	printf("\n");
-	graph->TraverseGraph(a, false);
+//	graph->TraverseGraph(a, true);
+//	printf("\n");
+//	graph->TraverseGraph(a, false);
+
+	std::list<Graph::Node*>	potEndNodes;
+	potEndNodes.push_back(j);
+
+	graph->FindDijkstrasPath(a, potEndNodes);
 
 	printf("\n");
 	system("pause");

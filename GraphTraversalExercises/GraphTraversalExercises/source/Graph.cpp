@@ -89,7 +89,7 @@ void Graph::FindDijkstrasPath(Node* start_,
 
 	for (auto iterator = path.begin(); iterator != path.end(); ++iterator)
 	{
-		printf("%i, %i\n", (*iterator).x, (*iterator).y);
+		printf("%f, %f\n", (*iterator).x, (*iterator).y);
 	}
 
 	/*

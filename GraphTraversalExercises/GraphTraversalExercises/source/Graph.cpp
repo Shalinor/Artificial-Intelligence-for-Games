@@ -13,7 +13,7 @@ void Graph::FindDijkstrasPath(Node* start_,
 	//Reset the nodes
 	for (auto iterator = nodes.begin(); iterator != nodes.end(); ++iterator)
 	{
-		(*iterator)->ClearDjikstrasValues();
+		(*iterator)->ClearDijkstrasValues();
 	}
 
 	Node* endNode = NULL;
@@ -137,71 +137,3 @@ void Graph::FindNodesInRange(std::vector<Node*> &outNodes_, float xPos_, float y
 {
 
 }
-
-
-/*void Graph::TraverseGraph(Graph::Node* startNode_, bool breadthFirst_)
-{
-	//Reset the lists & nodes
-	openList.clear();
-	closedList.clear();
-	ResetDOS();
-	
-	int increment = 0;
-
-	openList.push_back(startNode_);
-
-	while (!openList.empty())
-	{
-		if (breadthFirst_)
-		{
-			//sort openList ascending
-			openList.sort([](const Graph::Node *nodeA, const Graph::Node *nodeB){ return nodeA->dos < nodeB->dos; });
-		}	
-		else//Depth first then
-		{
-			//sort openList descending
-			openList.sort([](const Graph::Node *nodeA, const Graph::Node *nodeB){ return nodeA->dos > nodeB->dos; });
-		}
-
-		Graph::Node* currentNode = openList.front();
-		openList.pop_front();
-
-		//Process Node...
-		printf("%c, %i\n", currentNode->value, currentNode->dos);
-
-		closedList.push_back(currentNode);
-
-		for (auto conIterator = currentNode->connections.begin(); conIterator != currentNode->connections.end(); ++conIterator)
-		{
-			bool inClosedList = false;
-			bool inOpenList = false;
-
-			//Test for presence within closedList
-			for (auto cLIterator = closedList.begin(); cLIterator != closedList.end(); ++cLIterator)
-			{
-				if ((conIterator->connection) == (*cLIterator))
-				{
-					inClosedList = true;
-					break;
-				}
-			}
-
-			//Test for presence within openList
-			for (auto oLIterator = openList.begin(); oLIterator != openList.end(); ++oLIterator)
-			{
-				if ((conIterator->connection) == (*oLIterator))
-				{
-					inOpenList = true;
-					break;
-				}
-			}
-
-			if (!inClosedList && !inOpenList)
-			{
-				conIterator->connection->IncrementDOS(++increment);
-				openList.push_back(conIterator->connection);
-			}
-		}
-	}
-}
-*/

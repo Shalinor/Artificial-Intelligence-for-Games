@@ -1,8 +1,6 @@
 #pragma once
 
 #include <vector>
-//#include <queue>
-//#include <stack>
 #include <list>
 
 #include <stdio.h>
@@ -12,7 +10,6 @@ struct Vector2
 	Vector2() : x(0.f), y(0.f) {}
 	Vector2(float val_) : x(val_), y(val_) {}
 	Vector2(float x_, float y_) : x(x_), y(y_) {}
-	//Vector2(Vector2 pos_) : x(pos_.x), y(pos_.y) {}
 
 	float	x, y;
 };
@@ -57,7 +54,7 @@ public:
 		//overloaded constructor
 		Node(Vector2 pos_, float gScore_, Node* parent_) : pos(pos_), gScore(gScore_), parent(parent_) {}
 
-		void ClearDjikstrasValues() { parent = NULL, gScore = 0.f; }
+		void ClearDijkstrasValues() { parent = NULL, gScore = 0.f; }
 	};
 
 	//Default Constructor
@@ -91,14 +88,12 @@ public:
 		n2_->connections.push_back(Edge(n1_, cost));
 	}
 
-	//Searches the graph starting from the "start" node until one of the
-	// "potential end node's" are found.
+	//Searches the graph starting from the "start" node until one of the "potential end node's" are found.
 	// The resulting path is added to the "outPath" list.
 	void FindDijkstrasPath(Node* start_,
 		const std::list<Node*> &potentialEndNodes_);// , std::list<Node*> &outPath_);
 
-	//Helper function, populates "outNodes" with nodes that are within a
-	// circular area (xPos, yPos, radius)
+	//Helper function, populates "outNodes" with nodes that are within a circular area (xPos, yPos, radius)
 	void FindNodesInRange(std::vector<Node*> &outNodes_, float xPos_, float yPos_, float radius_);
 	
 

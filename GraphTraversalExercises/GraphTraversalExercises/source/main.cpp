@@ -6,7 +6,7 @@ int main(int numArgs, char** args)
 
 	//float temp = 0;
 
-	Graph::Node *a, *b, *c, *d, *e, *f, *g, *h, *i, *j;
+	Graph::Node *a, *b, *c, *d, *e, *f;// , *g, *h, *i, *j;
 
 	/*Graph::Node *a(Vector2(temp));
 	temp += 10.f;

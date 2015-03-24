@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <deque>
+#include <list>
 
 #include "Node.h"
 #include <iostream>
@@ -31,7 +32,7 @@ public:
 
 	Node*	FindNode(vec3 position_);		//Find node by value (position)
 
-	void	AddEdge(Node* nodeAlpha_, Node* nodeBeta_/*, Edge data (cost, etc)*/);	//directed_ assumes nodeAlpha -> nodeBeta
+	void	AddEdge(Node* nodeAlpha_, Node* nodeBeta_, float cost_ = -1.0f/*, Edge data (cost, etc)*/);	//directed_ assumes nodeAlpha -> nodeBeta
 	void	RemoveEdge(Node* nodeAlpha_, Node* nodeBeta_);
 	void	DisplayToConsole();
 	void	DisplayToScreen(SpriteBatch* spriteBatch_, Texture* texture_);
@@ -42,6 +43,10 @@ public:
 
 	void	TraverseDFS();
 	void	TraverseBFS();
+
+	//Searches the graph starting from the "start" node until one of the "potential end node's" are found.
+	// The resulting path is added to the "outPath" list.
+	void	FindDijkstrasPath(Node* start_, const std::list<Node*> &potentialEndNodes_, std::list<Node*> &outPath_);
 
 protected:
 	Input*	input; 
@@ -57,4 +62,7 @@ protected:
 
 	void	ClearTraversal();
 	//void	DisplayTraversal(Node* nodeToDisplay_);	//This probably needs something passed in - either node or edge, probably node...
+
+	std::list<Node*>	openList;
+	std::list<Node*>	closedList;
 };

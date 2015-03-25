@@ -10,12 +10,15 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 {
 	m_spritebatch = SpriteBatch::Factory::Create(this, SpriteBatch::GL3);
 
+	input = Input::GetSingleton();
+
 	//t = new Texture("./Images/nodeTexture.png");//box0_256.png");
 	t1 = new Texture("./Images/yellowBox_16.png");
 	t2 = new Texture("./Images/redBox_16.png");
 	t3 = new Texture("./Images/greenBox_16.png");
 
-	graph = new Graph(true);
+	graph = new Graph(false);	//true == directed == oneway only
+	pathfinder = new Pathfinder();
 
 	/*
 	Node* node1 = new Node(vec3(10, 100, 0), t1, t2);	//Jason has each node having an int id
@@ -35,7 +38,7 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 
 	//Attempting to duplicate the slide's 6 node graph
 
-	Node* node1 = new Node(vec3(100, 50, 0), t1, t2);	//0
+	/*Node* */node1 = new Node(vec3(100, 50, 0), t1, t2);	//0
 	Node* node2 = new Node(vec3(200, 50, 0), t1, t2);	//1
 	Node* node3 = new Node(vec3(200, 100, 0), t1, t2);	//2
 	Node* node4 = new Node(vec3(200, 150, 0), t1, t2);	//3
@@ -65,21 +68,32 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	graph->AddEdge(node1, node6);
 	graph->AddEdge(node6, node5);*/
 
-	graph->AddEdge(node1, node2, 2.f);
+	/*graph->AddEdge(node1, node2, 2.f);
 	graph->AddEdge(node2, node3, 3.f);
 	graph->AddEdge(node3, node1, 3.f);
 	graph->AddEdge(node3, node4, 1.f);
 	graph->AddEdge(node4, node5, 4.f);
 	graph->AddEdge(node4, node6, 4.f);
 	graph->AddEdge(node1, node6, 5.f);
-	graph->AddEdge(node6, node5, 6.f);
+	graph->AddEdge(node6, node5, 6.f);*/
+
+	graph->AddEdge(node1, node2, 200.f);
+	graph->AddEdge(node2, node3, 300.f);
+	graph->AddEdge(node3, node1, 300.f);
+	graph->AddEdge(node3, node4, 100.f);
+	graph->AddEdge(node4, node5, 400.f);
+	graph->AddEdge(node4, node6, 400.f);
+	graph->AddEdge(node1, node6, 500.f);
+	graph->AddEdge(node6, node5, 600.f);
 
 	graph->DisplayToConsole();
 
-	std::list<Node*>	potEndNodes;
+	//std::list<Node*>	potEndNodes;
 	potEndNodes.push_back(node5);
 
-	graph->FindDijkstrasPath(node1, potEndNodes, outPath);
+//	graph->FindDijkstrasPath(node1, potEndNodes, outPath);
+	
+//	pathfinder->Dijkstras(node1, potEndNodes, outPath);
 
 
 	//graph->RemoveNode(node1);
@@ -97,12 +111,24 @@ Game1::~Game1()
 	SpriteBatch::Factory::Destroy(m_spritebatch);
 	
 	delete graph;
+	//delete pathfinder;
 }
 
 
 void Game1::Update(float deltaTime)
 {
 	graph->Update(t1, t2);
+
+//	graph->FindDijkstrasPathIncremental(node1, potEndNodes, outPath);
+
+//	graph->FindDijkstrasPath(node1, potEndNodes, outPath);
+	pathfinder->Dijkstras(node1, potEndNodes, outPath);
+//	_sleep(100);
+
+	if (input->IsKeyDown(GLFW_KEY_ESCAPE))
+	{
+		Game1::Application::Quit();
+	}
 }
 
 void Game1::Draw()
@@ -117,17 +143,23 @@ void Game1::Draw()
 //	graph->DisplayToScreen(m_spritebatch, t);
 	graph->DisplayToScreen(m_spritebatch);
 
-	static int temp = -1;
+	/*static int temp = -1;
 
 	if (temp < outPath.size() - 1)
 	{
 		++temp;
+	}*/
+
+	if (!outPath.empty())
+	{
+		for (auto iterator = outPath.begin(); iterator != outPath.end(); ++iterator)
+		{
+			m_spritebatch->DrawSprite(t3, (*iterator)->position.x, (*iterator)->position.y, 10.f, 10.f);
+		}
 	}
 
-	for (auto iterator = outPath.begin(); iterator != outPath.end(); ++iterator)
-	{
-		m_spritebatch->DrawSprite(t3, (*iterator)->position.x, (*iterator)->position.y, 10.f, 10.f);
-	}
+//	system("cls");
+//	graph->DisplayToConsole();
 
 	//graph->TraverseDFS();
 	//graph->TraverseBFS();

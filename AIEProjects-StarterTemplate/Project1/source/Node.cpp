@@ -6,9 +6,9 @@ Node::Node(vec3 position_)
 	position = position_;
 	traversed = false;
 
-	initialGScore = 0.f;
-	gScore = initialGScore;
-	parent = NULL;
+	//initialGScore = 0.f;
+	//gScore = initialGScore;
+	//parent = NULL;
 }
 
 Node::Node(vec3 position_, Texture* untraversed_, Texture* traversed_)
@@ -24,9 +24,9 @@ Node::Node(vec3 position_, Texture* untraversed_, Texture* traversed_)
 
 	traversed = false;
 
-	initialGScore = 0.f;
-	gScore = initialGScore;
-	parent = NULL;
+	//initialGScore = 0.f;
+	//gScore = initialGScore;
+	//parent = NULL;
 }
 
 Node::Node(vec3 position_, float gScore_, Texture* untraversed_, Texture* traversed_)
@@ -42,9 +42,9 @@ Node::Node(vec3 position_, float gScore_, Texture* untraversed_, Texture* traver
 
 	traversed = false;
 
-	initialGScore = gScore_;
-	gScore = initialGScore;
-	parent = NULL;
+	//initialGScore = gScore_;
+	//gScore = initialGScore;
+	//parent = NULL;
 }
 
 Node::~Node()
@@ -56,8 +56,8 @@ Node::~Node()
 
 	edges.clear();
 
-	parent = NULL;
-	delete parent;
+//	parent = NULL;
+//	delete parent;
 }
 
 void	Node::AddEdge(Node* start_, Node* end_, float cost_)
@@ -90,6 +90,14 @@ void	Node::DisplayEdgesToConsole()
 	}
 }
 
+void	Node::DisplayEdgeCostToConsole()
+{
+	for (int i = 0; i != edges.size(); ++i)
+	{
+		edges[i]->DisplayCostToConsole();
+	}
+}
+
 void	Node::DisplayEdgesToScreen(SpriteBatch* spriteBatch_)
 {
 	for (int i = 0; i != edges.size(); ++i)
@@ -108,6 +116,11 @@ void	Node::DisplayNodeToScreen(SpriteBatch* spriteBatch_)
 	{
 		spriteBatch_->DrawSprite(untraversedTexture, position.x, position.y, 10.f, 10.f);
 	}
+}
+
+void	Node::DisplayIDToConsole()
+{
+	std::cout << id;
 }
 
 Node*	Node::GetLinkedNode(int edgeNumber_)
@@ -144,4 +157,13 @@ void Node::Edge::DisplayToConsole()
 	std::cout << " -> ";
 	end->DisplayPosition();
 	std::cout << "\n";
+}
+
+void Node::Edge::DisplayCostToConsole()
+{
+	std::cout << "\tEdge Detected: ";
+	start->DisplayIDToConsole();
+	std::cout << " -> ";
+	end->DisplayIDToConsole();
+	std::cout << " : " << cost << "\n";
 }

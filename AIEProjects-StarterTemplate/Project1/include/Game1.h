@@ -9,6 +9,7 @@ Description:
 #include <list>
 
 #include "Application.h"
+#include "Pathfinder.h"
 
 class SpriteBatch;
 class Texture;		//<- I don't like this method, I know it avoids polluting namespace, but meh...
@@ -34,6 +35,8 @@ protected:
 
 	SpriteBatch	        *m_spritebatch;
 
+	Input				*input;
+
 	//Texture*	        t;
 	Texture*	        t1;
 	Texture*	        t2;
@@ -43,6 +46,10 @@ protected:
 	vec3		        mousePosition;
 
 	std::list<Node*>    outPath;
+	std::list<Node*>	potEndNodes;
+	Node*				node1;
+
+	Pathfinder*			pathfinder;
 };
 
 #endif

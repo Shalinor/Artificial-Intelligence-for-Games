@@ -90,11 +90,13 @@
     <ClCompile Include="source\Game1.cpp" />
     <ClCompile Include="source\Graph.cpp" />
     <ClCompile Include="source\Node.cpp" />
+    <ClCompile Include="source\Pathfinder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game1.h" />
     <ClInclude Include="include\Graph.h" />
     <ClInclude Include="include\Node.h" />
+    <ClInclude Include="include\Pathfinder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

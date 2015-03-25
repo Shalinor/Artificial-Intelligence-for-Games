@@ -94,10 +94,12 @@ void	Graph::DisplayToConsole()
 	for (int i = 0; i != nodes.size(); ++i)
 	{
 		std::cout << "Node ";
-		nodes[i]->DisplayPosition();
+//		nodes[i]->DisplayPosition();
+		nodes[i]->DisplayIDToConsole();
 		std::cout << "\n";
 
-		nodes[i]->DisplayEdgesToConsole();
+//		nodes[i]->DisplayEdgesToConsole();
+		nodes[i]->DisplayEdgeCostToConsole();
 	}
 }
 
@@ -373,11 +375,9 @@ void	Graph::ClearTraversal()
 	traversed = false;
 }
 
-void	Graph::FindDijkstrasPath(Node* start_,
-									const std::list<Node*> &potentialEndNodes_,
-									std::list<Node*> &outPath_)
+void	Graph::FindDijkstrasPath(Node* start_, const std::list<Node*> &potentialEndNodes_, std::list<Node*> &outPath_)
 {
-	//Reset the lists
+/*	//Reset the lists
 	openList.clear();
 	closedList.clear();
 
@@ -403,8 +403,16 @@ void	Graph::FindDijkstrasPath(Node* start_,
 		//Process Node...
 		for (auto iterator = potentialEndNodes_.begin(); iterator != potentialEndNodes_.end(); ++iterator)
 		{
-			endNode = (*iterator);
-			break;	//Only breaks out of for?? may just clear openList??? or after for, if(endNode){break;}???
+			if(currentNode == (*iterator))
+			{
+				endNode = currentNode;//(*iterator);
+				break;	//Only breaks out of for?? may just clear openList??? or after for, if(endNode){break;}???
+			}
+		}
+
+		if (endNode != NULL)
+		{
+			break;
 		}
 
 
@@ -440,7 +448,7 @@ void	Graph::FindDijkstrasPath(Node* start_,
 			//	}
 			//}
 
-			if (!inClosedList && !inOpenList)
+/*			if (!inClosedList && !inOpenList)
 			{
 				(*iterator)->end->gScore = currentNode->gScore + (*iterator)->GetCost();
 				(*iterator)->end->parent = currentNode;
@@ -467,38 +475,38 @@ void	Graph::FindDijkstrasPath(Node* start_,
 	/*
 	Procedure FindPathDijkstras(startNode, List of potentialEndNodes)
 
-	Let openList be a List of Nodes
-	Let closedList be a List of Nodes
+		Let openList be a List of Nodes
+		Let closedList be a List of Nodes
 
-	Let endNode be a Node set to NULL
+		Let endNode be a Node set to NULL
 
-	Add startNode to openList
+		Add startNode to openList
 
-	While openList is not empty
+		While openList is not empty
 
-	Sort openList by Node.gScore
+			Sort openList by Node.gScore
 
-	Let currentNode = first item in openList
+			Let currentNode = first item in openList
 
-	// Process the node, do what you want with it. EG:
-	if currentNode is one of the potentialEnd
-	endNode = currentNode
-	break out of loop
+			// Process the node, do what you want with it. EG:
+			if currentNode is one of the potentialEnd
+				endNode = currentNode
+				break out of loop
 
-	remove currentNode from openList
-	Add currentNode to closedList
+			remove currentNode from openList
+			Add currentNode to closedList
 
-	for all connections c in currentNode
-	Add c.connection to openList if not in closedList
-	c.connection.gScore = currentNode.gScore + c.cost
-	c.connection.parent = currentNode
+			for all connections c in currentNode
+				Add c.connection to openList if not in closedList
+				c.connection.gScore = currentNode.gScore + c.cost
+				c.connection.parent = currentNode
 
 
-	// Calculate Path
-	Let path be a List of Vector2
-	Let currentNode = endNode;
-	While currentNode != NULL
-	Add currentNode.position to path
-	currentNode = currentNode.parent
-	*/
+		// Calculate Path
+		Let path be a List of Vector2
+		Let currentNode = endNode;
+		While currentNode != NULL
+			Add currentNode.position to path
+			currentNode = currentNode.parent
+		*/
 }

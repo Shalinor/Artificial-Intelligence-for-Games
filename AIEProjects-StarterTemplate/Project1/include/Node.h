@@ -29,8 +29,11 @@ public:
 	void	AddEdge(Node* start_, Node* end_, float cost_);
 	void	RemoveEdge(Node* start_, Node* end_);
 	void	DisplayEdgesToConsole();
+	void	DisplayEdgeCostToConsole();
 	void	DisplayEdgesToScreen(SpriteBatch* spriteBatch_);
 	void	DisplayNodeToScreen(SpriteBatch* spriteBatch_);
+
+	void	DisplayIDToConsole();
 
 	void	SetTraversed(){ traversed = true; }
 	bool	GetTraversed(){ return traversed; }
@@ -40,7 +43,7 @@ public:
 	Node*	GetLinkedNode(int edgeNumber_);
 	int		GetNumberOfEdges(){ return edges.size(); }
 
-	void ClearDijkstrasValues() { parent = NULL, gScore = initialGScore; }
+//	void ClearDijkstrasValues() { parent = NULL, gScore = initialGScore; }
 
 	class Edge
 	{
@@ -48,6 +51,7 @@ public:
 		//If cost not set to 0+, will be distance between nodes
 		Edge(Node* start_, Node* end_, float cost_ = -1.f/*, Edge data (cost, etc)*/);
 		void	DisplayToConsole();
+		void	DisplayCostToConsole();
 
 		Node*	start;
 		Node*	end;
@@ -67,7 +71,7 @@ public:
 	vec3				position;
 	std::vector<Edge*>	edges;
 
-	float				initialGScore;
-	float				gScore;
-	Node*				parent;
+//	float				initialGScore;
+//	float				gScore;
+//	Node*				parent;
 };

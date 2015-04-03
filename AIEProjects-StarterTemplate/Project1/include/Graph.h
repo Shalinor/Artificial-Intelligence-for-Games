@@ -44,10 +44,6 @@ public:
 	void	TraverseDFS();
 	void	TraverseBFS();
 
-	//Searches the graph starting from the "start" node until one of the "potential end node's" are found.
-	// The resulting path is added to the "outPath" list.
-	void	FindDijkstrasPath(Node* start_, const std::list<Node*> &potentialEndNodes_, std::list<Node*> &outPath_);
-
 protected:
 	Input*	input; 
 	

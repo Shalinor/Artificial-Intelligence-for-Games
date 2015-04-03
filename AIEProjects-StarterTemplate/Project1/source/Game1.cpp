@@ -13,12 +13,20 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	input = Input::GetSingleton();
 
 	//t = new Texture("./Images/nodeTexture.png");//box0_256.png");
-	t1 = new Texture("./Images/yellowBox_16.png");
-	t2 = new Texture("./Images/redBox_16.png");
-	t3 = new Texture("./Images/greenBox_16.png");
+	//t1 = new Texture("./Images/yellowBox_16.png");
+	//t2 = new Texture("./Images/redBox_16.png");
+	//t3 = new Texture("./Images/greenBox_16.png");
 
-	graph = new Graph(false);	//true == directed == oneway only
+	defaultTexture = new Texture("./Images/circle_blue.png");
+	startTexture = new Texture("./Images/circle_red.png");
+	endTexture = new Texture("./Images/circle_orange.png");
+	traversedTexture = new Texture("./Images/circle_yellow.png");
+	pathTexture = new Texture("./Images/circle_green.png");
+
+	graph = new Graph(true);	//true == directed == oneway only
 	pathfinder = new Pathfinder();
+	continueSearch = false;
+	spaceReleased = true;
 
 	/*
 	Node* node1 = new Node(vec3(10, 100, 0), t1, t2);	//Jason has each node having an int id
@@ -38,19 +46,19 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 
 	//Attempting to duplicate the slide's 6 node graph
 
-	/*Node* */node1 = new Node(vec3(100, 50, 0), t1, t2);	//0
-	Node* node2 = new Node(vec3(200, 50, 0), t1, t2);	//1
-	Node* node3 = new Node(vec3(200, 100, 0), t1, t2);	//2
-	Node* node4 = new Node(vec3(200, 150, 0), t1, t2);	//3
-	Node* node5 = new Node(vec3(150, 200, 0), t1, t2);	//4
-	Node* node6 = new Node(vec3(100, 150, 0), t1, t2);	//5
+	/*Node* */node1 = new Node(vec3(100, 50, 0), defaultTexture, traversedTexture);	//0
+	Node* node2 = new Node(vec3(200, 50, 0), defaultTexture, traversedTexture);	//1
+	Node* node3 = new Node(vec3(200, 100, 0), defaultTexture, traversedTexture);	//2
+	Node* node4 = new Node(vec3(200, 150, 0), defaultTexture, traversedTexture);	//3
+	Node* node5 = new Node(vec3(150, 200, 0), defaultTexture, traversedTexture);	//4
+	Node* node6 = new Node(vec3(100, 150, 0), defaultTexture, traversedTexture);	//5
 
-	//Node* node1 = new Node(vec3(10, 10, 0), t1, t2);	//0
-	//Node* node2 = new Node(vec3(12, 10, 0), t1, t2);	//1
-	//Node* node3 = new Node(vec3(12, 13, 0), t1, t2);	//2
-	//Node* node4 = new Node(vec3(12, 14, 0), t1, t2);	//3
-	//Node* node5 = new Node(vec3(11, 17, 0), t1, t2);	//4
-	//Node* node6 = new Node(vec3(10, 15, 0), t1, t2);	//5
+	//Node* node1 = new Node(vec3(10, 10, 0), defaultTexture, traversedTexture);	//0
+	//Node* node2 = new Node(vec3(12, 10, 0), defaultTexture, traversedTexture);	//1
+	//Node* node3 = new Node(vec3(12, 13, 0), defaultTexture, traversedTexture);	//2
+	//Node* node4 = new Node(vec3(12, 14, 0), defaultTexture, traversedTexture);	//3
+	//Node* node5 = new Node(vec3(11, 17, 0), defaultTexture, traversedTexture);	//4
+	//Node* node6 = new Node(vec3(10, 15, 0), defaultTexture, traversedTexture);	//5
 
 	graph->AddNode(node1);
 	graph->AddNode(node2);
@@ -117,12 +125,27 @@ Game1::~Game1()
 
 void Game1::Update(float deltaTime)
 {
-	graph->Update(t1, t2);
+	graph->Update(defaultTexture, traversedTexture);
 
 //	graph->FindDijkstrasPathIncremental(node1, potEndNodes, outPath);
 
 //	graph->FindDijkstrasPath(node1, potEndNodes, outPath);
-	pathfinder->Dijkstras(node1, potEndNodes, outPath);
+
+	if (input->IsKeyDown(GLFW_KEY_SPACE) && spaceReleased)
+	{
+		continueSearch = true;
+		spaceReleased = false;
+	}
+	else if (input->IsKeyUp(GLFW_KEY_SPACE))
+	{
+		spaceReleased = true;
+	}
+
+	if (continueSearch)
+	{
+		pathfinder->Dijkstras(node1, potEndNodes, outPath);
+		continueSearch = false;
+	}
 //	_sleep(100);
 
 	if (input->IsKeyDown(GLFW_KEY_ESCAPE))
@@ -154,7 +177,7 @@ void Game1::Draw()
 	{
 		for (auto iterator = outPath.begin(); iterator != outPath.end(); ++iterator)
 		{
-			m_spritebatch->DrawSprite(t3, (*iterator)->position.x, (*iterator)->position.y, 10.f, 10.f);
+			m_spritebatch->DrawSprite(pathTexture, (*iterator)->position.x, (*iterator)->position.y, 10.f, 10.f);
 		}
 	}
 

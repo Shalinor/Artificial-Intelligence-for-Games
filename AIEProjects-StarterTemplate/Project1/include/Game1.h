@@ -38,9 +38,11 @@ protected:
 	Input				*input;
 
 	//Texture*	        t;
-	Texture*	        t1;
-	Texture*	        t2;
-	Texture*            t3;
+	Texture*			defaultTexture;
+	Texture*	        startTexture;
+	Texture*	        endTexture;
+	Texture*            traversedTexture;
+	Texture*			pathTexture;
 
 	Graph*		        graph;
 	vec3		        mousePosition;
@@ -50,6 +52,8 @@ protected:
 	Node*				node1;
 
 	Pathfinder*			pathfinder;
+	bool				continueSearch;
+	bool				spaceReleased;
 };
 
 #endif

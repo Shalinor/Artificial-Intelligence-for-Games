@@ -43,8 +43,6 @@ public:
 	Node*	GetLinkedNode(int edgeNumber_);
 	int		GetNumberOfEdges(){ return edges.size(); }
 
-//	void ClearDijkstrasValues() { parent = NULL, gScore = initialGScore; }
-
 	class Edge
 	{
 	public:
@@ -70,8 +68,4 @@ public:
 
 	vec3				position;
 	std::vector<Edge*>	edges;
-
-//	float				initialGScore;
-//	float				gScore;
-//	Node*				parent;
 };

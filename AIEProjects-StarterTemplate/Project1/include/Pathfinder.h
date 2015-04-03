@@ -29,4 +29,9 @@ private:
 		int			degreesOfSeperation;
 		float		gScore;
 	};
+
+	std::list<PathNode*>	openList;							/*Let openList be a List of Nodes*/
+	std::list<PathNode*>	closedList;							/*Let closedList be a List of Nodes*/
+
+	bool					currentlySearching;
 };

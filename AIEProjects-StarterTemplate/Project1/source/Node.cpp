@@ -5,10 +5,6 @@ Node::Node(vec3 position_)
 {
 	position = position_;
 	traversed = false;
-
-	//initialGScore = 0.f;
-	//gScore = initialGScore;
-	//parent = NULL;
 }
 
 Node::Node(vec3 position_, Texture* untraversed_, Texture* traversed_)
@@ -23,10 +19,6 @@ Node::Node(vec3 position_, Texture* untraversed_, Texture* traversed_)
 	traversedTexture = traversed_;
 
 	traversed = false;
-
-	//initialGScore = 0.f;
-	//gScore = initialGScore;
-	//parent = NULL;
 }
 
 Node::Node(vec3 position_, float gScore_, Texture* untraversed_, Texture* traversed_)
@@ -41,10 +33,6 @@ Node::Node(vec3 position_, float gScore_, Texture* untraversed_, Texture* traver
 	traversedTexture = traversed_;
 
 	traversed = false;
-
-	//initialGScore = gScore_;
-	//gScore = initialGScore;
-	//parent = NULL;
 }
 
 Node::~Node()
@@ -55,9 +43,6 @@ Node::~Node()
 	}
 
 	edges.clear();
-
-//	parent = NULL;
-//	delete parent;
 }
 
 void	Node::AddEdge(Node* start_, Node* end_, float cost_)
@@ -139,7 +124,6 @@ Node::Edge::Edge(Node* start_, Node* end_, float cost_)
 {
 	start = start_;
 	end = end_;
-	//cost = cost_;
 	if (cost_ < 0)
 	{
 		cost = sqrtf((end_->position.x - start_->position.x) * (end_->position.x - start_->position.x) + (end_->position.y - start_->position.y) * (end_->position.y - start_->position.y));

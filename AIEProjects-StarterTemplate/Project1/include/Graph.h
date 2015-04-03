@@ -20,7 +20,7 @@ using	glm::vec3;
 class Graph
 {
 public:
-			Graph(bool directed_);
+			Graph(bool directed_, float detectionRadius_);
 	virtual	~Graph();
 
 	void	AddNode(Node* node_);			//Add given node
@@ -33,21 +33,25 @@ public:
 	Node*	FindNode(vec3 position_);		//Find node by value (position)
 
 	void	AddEdge(Node* nodeAlpha_, Node* nodeBeta_, float cost_ = -1.0f/*, Edge data (cost, etc)*/);	//directed_ assumes nodeAlpha -> nodeBeta
+	void	FillAllEdges(int gridSize_, float range_, bool diagonals_, float cost_ = -1.0f);
 	void	RemoveEdge(Node* nodeAlpha_, Node* nodeBeta_);
 	void	DisplayToConsole();
 	void	DisplayToScreen(SpriteBatch* spriteBatch_, Texture* texture_);
 	void	DisplayToScreen(SpriteBatch* spriteBatch_);	//If Nodes already know their textures...
 
 	void	Update();
-	void	Update(Texture* t1, Texture* t2);
+	void	Update(Texture* t1_, Texture* t2_, float cost_ = -1.0f);
 
 	void	TraverseDFS();
 	void	TraverseBFS();
+
+	void	ClearTraversal();
 
 protected:
 	Input*	input; 
 	
 	bool	directed;
+	float	detectionRadius;
 	bool	mouseLeftReleased;
 	bool	mouseRightReleased;
 
@@ -55,9 +59,6 @@ protected:
 
 	std::vector<Node*>	nodes;
 	std::deque<Node*>	traversal;
-
-	void	ClearTraversal();
-	//void	DisplayTraversal(Node* nodeToDisplay_);	//This probably needs something passed in - either node or edge, probably node...
 
 	std::list<Node*>	openList;
 	std::list<Node*>	closedList;

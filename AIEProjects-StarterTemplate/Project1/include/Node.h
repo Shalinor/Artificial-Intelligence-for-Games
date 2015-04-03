@@ -20,7 +20,6 @@ class Node
 public:
 			Node(vec3 position_);
 			Node(vec3 position_, Texture* untraversed_, Texture* traversed_);
-			Node(vec3 position_, float gScore_, Texture* untraversed_, Texture* traversed_);
 			~Node();
 
 	vec3	GetPosition(){ return position; }
@@ -29,7 +28,7 @@ public:
 	void	AddEdge(Node* start_, Node* end_, float cost_);
 	void	RemoveEdge(Node* start_, Node* end_);
 	void	DisplayEdgesToConsole();
-	void	DisplayEdgeCostToConsole();
+	void	DisplayEdgeIDToConsole();
 	void	DisplayEdgesToScreen(SpriteBatch* spriteBatch_);
 	void	DisplayNodeToScreen(SpriteBatch* spriteBatch_);
 
@@ -49,7 +48,7 @@ public:
 		//If cost not set to 0+, will be distance between nodes
 		Edge(Node* start_, Node* end_, float cost_ = -1.f/*, Edge data (cost, etc)*/);
 		void	DisplayToConsole();
-		void	DisplayCostToConsole();
+		void	DisplayIDToConsole();
 
 		Node*	start;
 		Node*	end;

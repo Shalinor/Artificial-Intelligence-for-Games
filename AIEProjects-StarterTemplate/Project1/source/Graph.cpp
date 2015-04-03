@@ -1,9 +1,10 @@
 #include "Graph.h"
 
 
-Graph::Graph(bool directed_)
+Graph::Graph(bool directed_, float detectionRadius_)
 {
 	directed = directed_;
+	detectionRadius = detectionRadius_;
 	input = Input::GetSingleton();
 
 	mouseLeftReleased = true;
@@ -57,7 +58,10 @@ Node* Graph::FindNode(vec3 position_)
 {
 	for (std::vector<Node*>::iterator i = nodes.begin(); i != nodes.end(); ++i)
 	{
-		if ((*i)->position == position_)
+		if (((*i)->position.x >= position_.x - detectionRadius) &&
+			((*i)->position.x <= position_.x + detectionRadius) &&
+			((*i)->position.y >= position_.y - detectionRadius) &&
+			((*i)->position.y <= position_.y + detectionRadius))
 		{
 			return (*i);
 		}
@@ -75,6 +79,51 @@ void Graph::AddEdge(Node* nodeAlpha_, Node* nodeBeta_, float cost_)
 	if (!directed)
 	{
 		nodeBeta_->AddEdge(nodeBeta_, nodeAlpha_, cost_);
+	}
+}
+
+void Graph::FillAllEdges(int gridSize_, float range_, bool diagonals_, float cost_)
+{
+	if (diagonals_)		//This cross connects the whole grid (upto 8 for a fully surrounded node)
+	{
+		//If nodes are within "range_" pixels (units?) of another node, connect them
+		for (int i = 0; i != nodes.size(); ++i)
+		{
+			for (int j = 0; j != nodes.size(); ++j)
+			{
+				if (nodes[i] != nodes[j])	//Don't want to connect to self
+				{
+					if ((nodes[i]->position.x >= nodes[j]->position.x - range_) &&
+						(nodes[i]->position.x <= nodes[j]->position.x + range_) &&
+						(nodes[i]->position.y >= nodes[j]->position.y - range_) &&
+						(nodes[i]->position.y <= nodes[j]->position.y + range_))
+					{
+						AddEdge(nodes[i], nodes[j], cost_);
+					}
+				}
+			}
+		}
+	}	
+	else				//This orthogonally connects the whole grid (upto 4 for a fully surrounded node)
+	{
+		//If nodes are within "range_" pixels (units?) of another node, connect them
+		for (int i = 0; i != nodes.size(); ++i)
+		{
+			//This cross connects the whole grid (upto 8 for a fully surrounded node)
+			for (int j = 0; j != nodes.size(); ++j)
+			{
+				if (nodes[i] != nodes[j])	//Don't want to connect to self
+				{
+					if ((((nodes[i]->position.x >= nodes[j]->position.x - range_) && (nodes[i]->position.y == nodes[j]->position.y)) &&
+						((nodes[i]->position.x <= nodes[j]->position.x + range_) && (nodes[i]->position.y == nodes[j]->position.y))) ||
+						(((nodes[i]->position.x == nodes[j]->position.x) && (nodes[i]->position.y >= nodes[j]->position.y - range_)) &&
+						((nodes[i]->position.x == nodes[j]->position.x) && (nodes[i]->position.y <= nodes[j]->position.y + range_))))
+					{
+						AddEdge(nodes[i], nodes[j], cost_);
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -99,7 +148,7 @@ void	Graph::DisplayToConsole()
 		std::cout << "\n";
 
 //		nodes[i]->DisplayEdgesToConsole();
-		nodes[i]->DisplayEdgeCostToConsole();
+		nodes[i]->DisplayEdgeIDToConsole();
 	}
 }
 
@@ -179,11 +228,11 @@ void	Graph::Update()
 	}
 }
 
-void	Graph::Update(Texture* t1, Texture* t2)
+void	Graph::Update(Texture* t1_, Texture* t2_, float cost_)
 {
 	if (input->IsMouseButtonDown(0) && mouseLeftReleased)
 	{
-		Node* temp = new Node(vec3(input->GetMouseX(), input->GetMouseY(), 0), t1, t2);
+		Node* temp = new Node(vec3(input->GetMouseX(), input->GetMouseY(), 0), t1_, t2_);
 
 		mouseLeftReleased = false;
 		AddNode(temp);
@@ -196,7 +245,7 @@ void	Graph::Update(Texture* t1, Texture* t2)
 				(nodes[i]->position.y >= temp->position.y - 50.f) &&
 				(nodes[i]->position.y <= temp->position.y + 50.f))
 			{
-				AddEdge(temp, nodes[i]);
+				AddEdge(temp, nodes[i], cost_);
 			}
 		}
 	}
@@ -209,10 +258,10 @@ void	Graph::Update(Texture* t1, Texture* t2)
 
 		for (int i = 0; i != nodes.size(); ++i)
 		{
-			if ((nodes[i]->position.x >= ((float)x - 10.f)) &&
-				(nodes[i]->position.x <= ((float)x + 10.f)) &&
-				(nodes[i]->position.y >= ((float)y - 10.f)) &&
-				(nodes[i]->position.y <= ((float)y + 10.f)))
+			if ((nodes[i]->position.x >= ((float)x - 8.f)) &&
+				(nodes[i]->position.x <= ((float)x + 8.f)) &&
+				(nodes[i]->position.y >= ((float)y - 8.f)) &&
+				(nodes[i]->position.y <= ((float)y + 8.f)))
 			{
 				RemoveNode(nodes[i]);
 				break;

@@ -21,20 +21,6 @@ Node::Node(vec3 position_, Texture* untraversed_, Texture* traversed_)
 	traversed = false;
 }
 
-Node::Node(vec3 position_, float gScore_, Texture* untraversed_, Texture* traversed_)
-{
-	//Really bad, but just for testing the traversals against slides...
-	static int id_ = -1;
-	id = ++id_;
-
-	position = position_;
-
-	untraversedTexture = untraversed_;
-	traversedTexture = traversed_;
-
-	traversed = false;
-}
-
 Node::~Node()
 {
 	for (auto iterator = edges.begin(); iterator != edges.end(); ++iterator)
@@ -47,6 +33,19 @@ Node::~Node()
 
 void	Node::AddEdge(Node* start_, Node* end_, float cost_)
 {
+	if (!edges.empty())
+	{
+		for (std::vector<Edge*>::iterator i = edges.begin(); i != edges.end(); ++i)
+		{
+			//If requested edge already exists, don't add it again
+			if (((*i)->start == start_) && ((*i)->end == end_))
+			{
+				return;	//Break out - bit dodge?
+			}
+		}
+	}
+
+	//No pre-existing edge matches so make a new one
 	edges.push_back(new Edge(start_, end_, cost_));
 }
 
@@ -75,11 +74,11 @@ void	Node::DisplayEdgesToConsole()
 	}
 }
 
-void	Node::DisplayEdgeCostToConsole()
+void	Node::DisplayEdgeIDToConsole()
 {
 	for (int i = 0; i != edges.size(); ++i)
 	{
-		edges[i]->DisplayCostToConsole();
+		edges[i]->DisplayIDToConsole();
 	}
 }
 
@@ -143,7 +142,7 @@ void Node::Edge::DisplayToConsole()
 	std::cout << "\n";
 }
 
-void Node::Edge::DisplayCostToConsole()
+void Node::Edge::DisplayIDToConsole()
 {
 	std::cout << "\tEdge Detected: ";
 	start->DisplayIDToConsole();

@@ -18,6 +18,8 @@ public:
 						const std::list<Node*> &potentialEnd,
 						std::list<Node*> &outPath);
 
+	void	ResetSearch(){ currentlySearching = false; }
+
 private:
 	struct PathNode
 	{

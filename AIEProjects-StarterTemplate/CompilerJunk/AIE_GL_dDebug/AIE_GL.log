@@ -1,7 +1,7 @@
-﻿Build started 25/03/2015 8:50:13 PM.
-     1>Project "D:\Github Repositories\Artificial-Intelligence-for-Games\AIEProjects-StarterTemplate\AIE_GL\AIE_GL.vcxproj" on node 2 (Build target(s)).
+﻿Build started 3/04/2015 11:09:32 PM.
+     1>Project "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\AIE_GL\AIE_GL.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"D:\Github Repositories\Artificial-Intelligence-for-Games\AIEProjects-StarterTemplate\AIE_GL\include\\" /I"D:\Github Repositories\Artificial-Intelligence-for-Games\AIEProjects-StarterTemplate\libraries\glew\include\\" /I"D:\Github Repositories\Artificial-Intelligence-for-Games\AIEProjects-StarterTemplate\libraries\glfw3\include\GLFW\\" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"D:\Github Repositories\Artificial-Intelligence-for-Games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\\" /Fd"D:\Github Repositories\Artificial-Intelligence-for-Games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt source\Application.cpp source\Font.cpp source\Input.cpp source\lodepng.cpp source\RenderTexture.cpp source\SpriteBatch.cpp source\SpriteBatch_GL3.cpp source\Texture.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\AIE_GL\include\\" /I"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\libraries\glew\include\\" /I"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\libraries\glfw3\include\GLFW\\" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\\" /Fd"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt source\Application.cpp source\Font.cpp source\Input.cpp source\lodepng.cpp source\RenderTexture.cpp source\SpriteBatch.cpp source\SpriteBatch_GL3.cpp source\Texture.cpp
          Texture.cpp
      1>d:\github repositories\artificial-intelligence-for-games\aieprojects-startertemplate\aie_gl\source\texture.cpp(67): warning C4018: '<' : signed/unsigned mismatch
      1>d:\github repositories\artificial-intelligence-for-games\aieprojects-startertemplate\aie_gl\source\texture.cpp(73): warning C4018: '<' : signed/unsigned mismatch
@@ -42,19 +42,19 @@
                  d:\github repositories\artificial-intelligence-for-games\aieprojects-startertemplate\libraries\glfw3\include\glfw\glfw3.h(95) : see previous definition of 'APIENTRY'
          Generating Code...
        Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"D:\Github Repositories\Artificial-Intelligence-for-Games\AIEProjects-StarterTemplate\AIE_GL\bin\AIE_GL_d.lib" OpenGL32.lib glew32.lib glfw3.lib /LIBPATH:"D:\Github Repositories\Artificial-Intelligence-for-Games\AIEProjects-StarterTemplate\libraries\glew\lib\Release\Win32\\" /LIBPATH:"D:\Github Repositories\Artificial-Intelligence-for-Games\AIEProjects-StarterTemplate\libraries\glfw3\lib-vc2013\\" /NOLOGO "D:\Github Repositories\Artificial-Intelligence-for-Games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\Application.obj"
-         "D:\Github Repositories\Artificial-Intelligence-for-Games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\Font.obj"
-         "D:\Github Repositories\Artificial-Intelligence-for-Games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\Input.obj"
-         "D:\Github Repositories\Artificial-Intelligence-for-Games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\lodepng.obj"
-         "D:\Github Repositories\Artificial-Intelligence-for-Games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\RenderTexture.obj"
-         "D:\Github Repositories\Artificial-Intelligence-for-Games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\SpriteBatch.obj"
-         "D:\Github Repositories\Artificial-Intelligence-for-Games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\SpriteBatch_GL3.obj"
-         "D:\Github Repositories\Artificial-Intelligence-for-Games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\Texture.obj"
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\AIE_GL\bin\AIE_GL_d.lib" OpenGL32.lib glew32.lib glfw3.lib /LIBPATH:"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\libraries\glew\lib\Release\Win32\\" /LIBPATH:"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\libraries\glfw3\lib-vc2013\\" /NOLOGO "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\Application.obj"
+         "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\Font.obj"
+         "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\Input.obj"
+         "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\lodepng.obj"
+         "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\RenderTexture.obj"
+         "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\SpriteBatch.obj"
+         "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\SpriteBatch_GL3.obj"
+         "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\Texture.obj"
      1>glew32.lib(glew32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in OpenGL32.lib(OPENGL32.dll); second definition ignored
      1>glew32.lib(glew32.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
-         AIE_GL.vcxproj -> D:\Github Repositories\Artificial-Intelligence-for-Games\AIEProjects-StarterTemplate\AIE_GL\bin\AIE_GL_d.lib
-     1>Done Building Project "D:\Github Repositories\Artificial-Intelligence-for-Games\AIEProjects-StarterTemplate\AIE_GL\AIE_GL.vcxproj" (Build target(s)).
+         AIE_GL.vcxproj -> D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\AIE_GL\bin\AIE_GL_d.lib
+     1>Done Building Project "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\AIE_GL\AIE_GL.vcxproj" (Rebuild target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:15.75
+Time Elapsed 00:00:17.16

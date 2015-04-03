@@ -49,11 +49,21 @@ protected:
 
 	std::list<Node*>    outPath;
 	std::list<Node*>	potEndNodes;
-	Node*				node1;
+	Node*				startNode;
 
 	Pathfinder*			pathfinder;
+	bool				newSearch;
 	bool				continueSearch;
 	bool				spaceReleased;
+
+	bool				rReleased;
+
+	bool				pReleased;
+
+	int					gridSize;
+	float				gridSpacing;
+
+	void				ResetSearches();
 };
 
 #endif

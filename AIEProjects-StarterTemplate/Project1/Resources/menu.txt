@@ -1,0 +1,20 @@
+ESC     Exit program
+---------------------------
+LMB     Place node
+RMB     Remove node
+S       Set start node
+E       Set end node
+---------------------------
+Search Type:
+1       Breadth First
+2       Depth First
+3       Dijkstra's
+---------------------------
+R       Reset search
+P       Run through search
+Space   Step through search
+---------------------------
+Display Options:
+I       Node IDs
+C       Edge costs
+D       Edge directions

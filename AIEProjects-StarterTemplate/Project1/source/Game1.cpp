@@ -4,13 +4,24 @@
 #include "Font.h"
 #include "Input.h"
 
+#include <fstream>
+
 #include "Graph.h"
 
 Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscreen, const char *title) : Application(windowWidth, windowHeight, fullscreen, title)
 {
+	LoadMenu();
+
 	m_spritebatch = SpriteBatch::Factory::Create(this, SpriteBatch::GL3);
 
 	input = Input::GetSingleton();
+
+	//menuFont = new Font("./Fonts/calibri_24px.fnt");
+	//menuFont = new Font("./Fonts/arial_20px.fnt");
+	menuFont = new Font("./Fonts/CourierNew_11px.fnt");
+//	menuText = "ESC - Exit program\nSpace - step through search\nSomething else";	//Ideally load in from a file...
+	menuPos = vec2(0.f, 0.f);
+
 
 	defaultTexture = new Texture("./Images/circle_blue.png");
 	startTexture = new Texture("./Images/circle_red.png");
@@ -89,6 +100,11 @@ void Game1::Update(float deltaTime)
 	graph->Update(defaultTexture, traversedTexture, 1.0f);
 
 
+	if (input->IsKeyDown(GLFW_KEY_L))
+	{
+		LoadMenu();
+	}
+
 	if (input->IsKeyDown(GLFW_KEY_SPACE) && spaceReleased)
 	{
 		continueSearch = true;
@@ -160,6 +176,10 @@ void Game1::Draw()
 
 	// TODO: draw stuff.
 
+	//Draw menu
+	m_spritebatch->DrawString(menuFont, menuText, menuPos.x, menuPos.y);
+
+	//Draw graph
 	graph->DisplayToScreen(m_spritebatch);
 
 	if (!outPath.empty())
@@ -180,4 +200,36 @@ void Game1::ResetSearches()
 	graph->ClearTraversal();
 	pathfinder->ResetSearch();
 	outPath.clear();
+}
+
+void Game1::LoadMenu()
+{
+	std::ifstream file("menu.txt", std::ios_base::in | std::ios_base::binary);
+
+	if (file)
+	{
+		//Get length of file
+		file.seekg(0, file.end);
+		int length = file.tellg();
+		file.seekg(0, file.beg);
+
+		//+1 added to allow for addition of '\0' after read to clear superflouous memory content
+		menuText = new char[length + 1];
+
+		std::cout << "Reading " << length << " characters... ";
+
+		//Read file into menuText
+		file.read(menuText, length);
+
+		menuText[length] = '\0';	//clears the supurflouous byte of rubbish at the end.
+
+		if (file)
+			std::cout << "All characters read successfully.";
+		else
+			std::cout << "Error: only " << file.gcount() << " could be read.";
+
+		std::cout << std::endl;
+
+		file.close();
+	}
 }

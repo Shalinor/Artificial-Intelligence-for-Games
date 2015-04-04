@@ -17,6 +17,8 @@ class Graph;
 class Node;
 class Input;
 
+using glm::vec2;
+
 class Game1 : public Application
 {
 public:
@@ -64,6 +66,14 @@ protected:
 	float				gridSpacing;
 
 	void				ResetSearches();
+
+
+	//Menu
+	Font*				menuFont;
+	char*				menuText;
+	vec2				menuPos;
+
+	void				LoadMenu();
 };
 
 #endif

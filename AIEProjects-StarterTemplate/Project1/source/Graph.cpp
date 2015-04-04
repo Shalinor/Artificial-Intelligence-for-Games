@@ -1,6 +1,5 @@
 #include "Graph.h"
 
-
 Graph::Graph(bool directed_, float detectionRadius_)
 {
 	directed = directed_;
@@ -11,7 +10,6 @@ Graph::Graph(bool directed_, float detectionRadius_)
 	mouseRightReleased = true;
 	traversed = false;
 }
-
 
 Graph::~Graph()
 {
@@ -28,6 +26,7 @@ Graph::~Graph()
 	nodes.clear();
 	traversal.clear();
 }
+
 
 void Graph::AddNode(Node* node_)
 {
@@ -162,6 +161,21 @@ void	Graph::DisplayToScreen(SpriteBatch* spriteBatch_, Texture* texture_)
 }
 
 void	Graph::DisplayToScreen(SpriteBatch* spriteBatch_)
+{
+	for (int i = 0; i != nodes.size(); ++i)
+	{
+		nodes[i]->DisplayEdgesToScreen(spriteBatch_);
+		//nodes[i]->DisplayNodeToScreen(spriteBatch_);
+	}
+
+	//Split to allow all edges to be drawn before any nodes to ensure ALL nodes are on top of ALL edges
+	for (int i = 0; i != nodes.size(); ++i)
+	{
+		nodes[i]->DisplayNodeToScreen(spriteBatch_);
+	}
+}
+
+void	Graph::DisplayToScreen(SpriteBatch* spriteBatch_, bool displayIDs, bool displayCosts, bool displayDirections, Font* font)
 {
 	for (int i = 0; i != nodes.size(); ++i)
 	{

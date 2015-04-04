@@ -38,6 +38,7 @@ public:
 	void	DisplayToConsole();
 	void	DisplayToScreen(SpriteBatch* spriteBatch_, Texture* texture_);
 	void	DisplayToScreen(SpriteBatch* spriteBatch_);	//If Nodes already know their textures...
+	void	DisplayToScreen(SpriteBatch* spriteBatch_, bool displayIDs, bool displayCosts, bool displayDirections, Font* font);
 
 	void	Update();
 	void	Update(Texture* t1_, Texture* t2_, float cost_ = -1.0f);

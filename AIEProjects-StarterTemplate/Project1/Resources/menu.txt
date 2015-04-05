@@ -1,6 +1,6 @@
 ESC     Exit program
 ---------------------------
-LMB     Place node
+LMB     Add node
 RMB     Remove node
 S       Set start node
 E       Set end node

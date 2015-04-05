@@ -68,6 +68,9 @@ protected:
 	bool				twoReleased;
 	bool				threeReleased;
 
+	bool				mouseLeftReleased;
+	//bool				mouseRightReleased;
+
 	int					gridSize;
 	float				gridSpacing;
 

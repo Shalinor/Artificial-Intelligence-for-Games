@@ -243,6 +243,8 @@ void	Graph::Update()
 
 void	Graph::Update(Texture* t1_, Texture* t2_, float cost_)
 {
+	////TEST IF A NODE IS WITHIN DETECTION RADIUS OF THE CLICK (10px??) AND DO NOT ADD IF THERE IS - OR REMOVE IF RMB
+
 	if (input->IsMouseButtonDown(0) && mouseLeftReleased)
 	{
 		Node* temp = new Node(vec3(input->GetMouseX(), input->GetMouseY(), 0), t1_, t2_);
@@ -253,12 +255,15 @@ void	Graph::Update(Texture* t1_, Texture* t2_, float cost_)
 		//If new node (temp) is within 50 pixels (units?) of another node, connect them
 		for (int i = 0; i != nodes.size(); ++i)
 		{
-			if ((nodes[i]->position.x >= temp->position.x - 50.f) &&
-				(nodes[i]->position.x <= temp->position.x + 50.f) &&
-				(nodes[i]->position.y >= temp->position.y - 50.f) &&
-				(nodes[i]->position.y <= temp->position.y + 50.f))
+			if (nodes[i]->position != temp->position) // or could just if(nodes[i] != temp)...
 			{
-				AddEdge(temp, nodes[i], cost_);
+				if ((nodes[i]->position.x >= temp->position.x - 50.f) &&
+					(nodes[i]->position.x <= temp->position.x + 50.f) &&
+					(nodes[i]->position.y >= temp->position.y - 50.f) &&
+					(nodes[i]->position.y <= temp->position.y + 50.f))
+				{
+					AddEdge(temp, nodes[i], cost_);
+				}
 			}
 		}
 	}

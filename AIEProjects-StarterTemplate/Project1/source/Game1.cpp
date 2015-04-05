@@ -27,9 +27,12 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	traversedTexture	= new Texture("./Images/circle_yellow.png");
 	pathTexture			= new Texture("./Images/circle_green.png");
 
-	graph				= new Graph(true, 10.f);	//true == directed == oneway only
-
+	graph				= new Graph(false, 5.f);	//true == directed == oneway only ... detection radius == half image dimension being used
 	pathfinder			= new Pathfinder();
+
+	startNode			= NULL;
+	potEndNodes.clear();
+
 	newSearch			= false;
 	continueSearch		= false;
 	spaceReleased		= true;
@@ -43,6 +46,9 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	oneReleased			= true;
 	twoReleased			= true;
 	threeReleased		= true;
+
+	mouseLeftReleased	= true;
+	//mouseRightReleased	= true;
 
 	displayIDs			= false;
 	displayCosts		= false;
@@ -64,34 +70,30 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	graph->FillAllEdges(gridSize, gridSpacing, false, 1.f);
 
 	//Attempting to duplicate the slide's 6 node graph
-	///*Node* */node1 = new Node(vec3(100, 50, 0), defaultTexture, traversedTexture);	//0
-	//Node* node2 = new Node(vec3(200, 50, 0), defaultTexture, traversedTexture);	//1
-	//Node* node3 = new Node(vec3(200, 100, 0), defaultTexture, traversedTexture);	//2
-	//Node* node4 = new Node(vec3(200, 150, 0), defaultTexture, traversedTexture);	//3
-	//Node* node5 = new Node(vec3(150, 200, 0), defaultTexture, traversedTexture);	//4
-	//Node* node6 = new Node(vec3(100, 150, 0), defaultTexture, traversedTexture);	//5
+	/*Node* node1 = new Node(vec3(100, 50, 0), defaultTexture, traversedTexture);	//0
+	Node* node2 = new Node(vec3(200, 50, 0), defaultTexture, traversedTexture);	//1
+	Node* node3 = new Node(vec3(200, 100, 0), defaultTexture, traversedTexture);	//2
+	Node* node4 = new Node(vec3(200, 150, 0), defaultTexture, traversedTexture);	//3
+	Node* node5 = new Node(vec3(150, 200, 0), defaultTexture, traversedTexture);	//4
+	Node* node6 = new Node(vec3(100, 150, 0), defaultTexture, traversedTexture);	//5
 
-	//graph->AddNode(node1);
-	//graph->AddNode(node2);
-	//graph->AddNode(node3);
-	//graph->AddNode(node4);
-	//graph->AddNode(node5);
-	//graph->AddNode(node6);
+	graph->AddNode(node1);
+	graph->AddNode(node2);
+	graph->AddNode(node3);
+	graph->AddNode(node4);
+	graph->AddNode(node5);
+	graph->AddNode(node6);
 
-	//graph->AddEdge(node1, node2, 200.f);
-	//graph->AddEdge(node2, node3, 300.f);
-	//graph->AddEdge(node3, node1, 300.f);
-	//graph->AddEdge(node3, node4, 100.f);
-	//graph->AddEdge(node4, node5, 400.f);
-	//graph->AddEdge(node4, node6, 400.f);
-	//graph->AddEdge(node1, node6, 500.f);
-	//graph->AddEdge(node6, node5, 600.f);
+	graph->AddEdge(node1, node2, 200.f);
+	graph->AddEdge(node2, node3, 300.f);
+	graph->AddEdge(node3, node1, 300.f);
+	graph->AddEdge(node3, node4, 100.f);
+	graph->AddEdge(node4, node5, 400.f);
+	graph->AddEdge(node4, node6, 400.f);
+	graph->AddEdge(node1, node6, 500.f);
+	graph->AddEdge(node6, node5, 600.f);*/
 
-//	graph->DisplayToConsole();
-
-	////std::list<Node*>	potEndNodes;
-	//potEndNodes.push_back(node5);
-	
+//	graph->DisplayToConsole();	//This chugs with the grid...
 }
 
 Game1::~Game1()
@@ -105,7 +107,75 @@ Game1::~Game1()
 
 void Game1::Update(float deltaTime)
 {
-	graph->Update(defaultTexture, traversedTexture, 1.0f);
+	if (!sReleased || !eReleased)								//If either setting Start or End node
+	{
+		if (input->IsMouseButtonDown(0) && mouseLeftReleased)
+		{
+			mousePosition = vec3(input->GetMouseX(), input->GetMouseY(), 0.f);
+			mouseLeftReleased = false;
+						
+
+			Node* temp = graph->FindNode(mousePosition);			//Get node under mouse pointer
+
+			if (temp != NULL)										//Test if a node was found
+			{
+				if (!sReleased && eReleased)						//Setting Start node
+				{
+					if (startNode == temp)							//If selecting existing Start node, clear it
+					{
+						startNode = NULL;
+					}
+					else
+					{
+						startNode = temp;
+					}
+				}
+				else if (sReleased && !eReleased)					//Setting End node
+				{
+					bool alreadyInPotEndList = false;
+
+					for (std::list<Node*>::iterator i = potEndNodes.begin(); i != potEndNodes.end(); ++i)
+					{
+						if ((*i) == temp)
+						{
+							alreadyInPotEndList = true;
+							potEndNodes.erase(i);
+							break;
+						}
+					}
+
+					if (!alreadyInPotEndList)
+					{
+						potEndNodes.push_back(temp);
+					}
+				}
+			}
+		}
+		/*else if (input->IsMouseButtonDown(1) && mouseRightReleased)
+		{
+		mousePosition = vec3(input->GetMouseX(), input->GetMouseY(), 0.f);
+
+		mouseRightReleased = false;
+		}*/
+	}
+	else/* if (sReleased && eReleased)*/						//Not setting Start or End node
+	{
+		graph->Update(defaultTexture, traversedTexture, 1.0f);	//Only use graph's LMB/RMB input if setting Start/End nodes...
+		//	NEED TO PUT SOMETHING IN TO COVER REMOVING A START/END NODE AS THEY ARE STORED EXTERNALLY TO GRAPH...
+		//		MAYBE WHEN I REMOVE IT, SET IT TO NULL??
+	}
+
+
+	//Reset LMB down when released
+	if (input->IsMouseButtonUp(0) && !mouseLeftReleased)
+	{
+		mouseLeftReleased = true;
+	}
+
+	/*if (input->IsMouseButtonUp(1) && !mouseRightReleased)
+	{
+		mouseRightReleased = true;
+	}*/
 
 
 	if (input->IsKeyDown(GLFW_KEY_L))
@@ -242,6 +312,21 @@ void Game1::Draw()
 
 	//Draw graph
 	graph->DisplayToScreen(m_spritebatch, displayIDs, displayCosts, displayDirections, menuFont);
+
+	//Draw Start/End nodes <over the existing traversed/non-traversed ... these will then be overridden by outpath once done>
+	if (startNode)
+	{
+		m_spritebatch->DrawSprite(startTexture, startNode->position.x, startNode->position.y, 10.f, 10.f);
+	}
+
+	if (!potEndNodes.empty())
+	{
+		for (std::list<Node*>::iterator i = potEndNodes.begin(); i != potEndNodes.end(); ++i)
+		{
+			m_spritebatch->DrawSprite(endTexture, (*i)->position.x, (*i)->position.y, 10.f, 10.f);
+		}
+	}
+
 
 	if (!outPath.empty())
 	{

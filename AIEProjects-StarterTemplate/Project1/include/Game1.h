@@ -19,6 +19,14 @@ class Input;
 
 using glm::vec2;
 
+enum SearchOptions
+{
+	BFS,
+	DFS,
+	DIJKSTRAS,
+	ASTAR
+};
+
 class Game1 : public Application
 {
 public:
@@ -54,6 +62,10 @@ protected:
 	Node*				startNode;
 
 	Pathfinder*			pathfinder;
+
+	bool				randomCosts;
+
+	SearchOptions		chosenSearch;
 	bool				newSearch;
 	bool				continueSearch;
 	bool				spaceReleased;
@@ -75,6 +87,8 @@ protected:
 	float				gridSpacing;
 
 	void				ResetSearches();
+
+	void				Search();
 
 
 	//Menu

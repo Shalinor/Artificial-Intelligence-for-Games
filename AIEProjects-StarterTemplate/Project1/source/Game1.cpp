@@ -10,6 +10,8 @@
 
 Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscreen, const char *title) : Application(windowWidth, windowHeight, fullscreen, title)
 {
+	srand(time(NULL));
+
 	m_spritebatch = SpriteBatch::Factory::Create(this, SpriteBatch::GL3);
 
 	input = Input::GetSingleton();
@@ -33,6 +35,9 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	startNode			= NULL;
 	potEndNodes.clear();
 
+	randomCosts			= true;
+
+	chosenSearch		= DIJKSTRAS;
 	newSearch			= false;
 	continueSearch		= false;
 	spaceReleased		= true;
@@ -51,13 +56,13 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	//mouseRightReleased	= true;
 
 	displayIDs			= false;
-	displayCosts		= false;
+	displayCosts		= true;
 	displayDirections	= false;
 
 	//Now to create a grid of nodes...
 
 	gridSize = 11;
-	gridSpacing = 30.f;
+	gridSpacing = 45.f;
 
 	for (int y = 1; y < gridSize; ++y)
 	{
@@ -67,7 +72,7 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 		}
 	}
 
-	graph->FillAllEdges(gridSize, gridSpacing, false, 1.f);
+	graph->FillAllEdges(gridSize, gridSpacing, false, randomCosts, 1.f);
 
 	//Attempting to duplicate the slide's 6 node graph
 	/*Node* node1 = new Node(vec3(100, 50, 0), defaultTexture, traversedTexture);	//0
@@ -160,7 +165,7 @@ void Game1::Update(float deltaTime)
 	}
 	else/* if (sReleased && eReleased)*/						//Not setting Start or End node
 	{
-		graph->Update(defaultTexture, traversedTexture, 1.0f);	//Only use graph's LMB/RMB input if setting Start/End nodes...
+		graph->Update(defaultTexture, traversedTexture, randomCosts, 1.0f);	//Only use graph's LMB/RMB input if setting Start/End nodes...
 		//	NEED TO PUT SOMETHING IN TO COVER REMOVING A START/END NODE AS THEY ARE STORED EXTERNALLY TO GRAPH...
 		//		MAYBE WHEN I REMOVE IT, SET IT TO NULL??
 	}
@@ -236,16 +241,56 @@ void Game1::Update(float deltaTime)
 		dReleased = true;
 	}
 
-	if (input->IsKeyDown(GLFW_KEY_SPACE) && spaceReleased)
+	///Choosing Search Option - BFS, DFS, DIJKSTRAS
+	if (input->IsKeyDown(GLFW_KEY_1) && oneReleased)
 	{
-		continueSearch = true;
-		spaceReleased = false;
+		if (chosenSearch != BFS)
+		{
+			//Set BFS as chosen search and reset
+			chosenSearch = BFS;
+			ResetSearches();
+			oneReleased = false;
+		}
 	}
-	else if (input->IsKeyUp(GLFW_KEY_SPACE))
+	else if (input->IsKeyUp(GLFW_KEY_1))
 	{
-		spaceReleased = true;
+		oneReleased = true;
 	}
 
+
+	if (input->IsKeyDown(GLFW_KEY_2) && twoReleased)
+	{
+		if (chosenSearch != DFS)
+		{
+			//Set DFS as chosen search and reset
+			chosenSearch = DFS;
+			ResetSearches();
+			twoReleased = false;
+		}
+	}
+	else if (input->IsKeyUp(GLFW_KEY_2))
+	{
+		twoReleased = true;
+	}
+
+
+	if (input->IsKeyDown(GLFW_KEY_3) && threeReleased)
+	{
+		if (chosenSearch != DIJKSTRAS)
+		{
+			//Set Dijkstra's as chosen search and reset
+			chosenSearch = DIJKSTRAS;
+			ResetSearches();
+			threeReleased = false;
+		}
+	}
+	else if (input->IsKeyUp(GLFW_KEY_3))
+	{
+		threeReleased = true;
+	}
+
+
+	///Searching - Reset, Step-thru, Run-thru...
 	if (input->IsKeyDown(GLFW_KEY_R) && rReleased)
 	{
 		ResetSearches();
@@ -254,6 +299,18 @@ void Game1::Update(float deltaTime)
 	else if (input->IsKeyUp(GLFW_KEY_R))
 	{
 		rReleased = true;
+	}
+
+
+	//Step-thru / Run-thru	<space/p>
+	if (input->IsKeyDown(GLFW_KEY_SPACE) && spaceReleased)
+	{
+		continueSearch = true;
+		spaceReleased = false;
+	}
+	else if (input->IsKeyUp(GLFW_KEY_SPACE))
+	{
+		spaceReleased = true;
 	}
 
 	if (input->IsKeyDown(GLFW_KEY_P))
@@ -288,7 +345,7 @@ void Game1::Update(float deltaTime)
 			newSearch = false;
 		}
 
-		pathfinder->Dijkstras(startNode, potEndNodes, outPath);
+		Search();
 		continueSearch = false;
 	}
 
@@ -346,6 +403,37 @@ void Game1::ResetSearches()
 	graph->ClearTraversal();
 	pathfinder->ResetSearch();
 	outPath.clear();
+}
+
+void Game1::Search()
+{
+	switch (chosenSearch)
+	{
+	case BFS:
+		if (startNode)								//Ensure that the requisite values are in place
+		{
+			//pathfinder->BreadthFirstSearch(startNode);
+			pathfinder->BFS_DFS(startNode, false);
+		}
+		break;
+	case DFS:
+		if (startNode)								//Ensure that the requisite values are in place
+		{
+			//pathfinder->DepthFirstSearch(startNode);
+			pathfinder->BFS_DFS(startNode, true);
+		}
+		break;
+	case DIJKSTRAS:
+		if (startNode && !potEndNodes.empty())		//Ensure that the requisite values are in place
+		{
+			pathfinder->Dijkstras(startNode, potEndNodes, outPath);
+		}
+		break;
+	default:
+		//Shouldn't get here
+		std::cout << "\n\nError: Reached default in Game1::Search() Switch(chosenSearch) statement...\n\n";
+		break;
+	}
 }
 
 void Game1::LoadMenu()

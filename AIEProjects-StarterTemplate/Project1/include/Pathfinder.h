@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <deque>
 
 #include "Node.h"
 
@@ -20,6 +21,12 @@ public:
 
 	void	ResetSearch(){ currentlySearching = false; }
 
+	void	BFS_DFS(Node* startNode_, bool DFS_);
+
+	//Don't use these - incorporated into the BFS_DFS above
+//	void	BreadthFirstSearch(Node* startNode_);
+//	void	DepthFirstSearch(Node* startNode_);
+
 private:
 	struct PathNode
 	{
@@ -32,8 +39,14 @@ private:
 		float		gScore;
 	};
 
-	std::list<PathNode*>	openList;							/*Let openList be a List of Nodes*/
-	std::list<PathNode*>	closedList;							/*Let closedList be a List of Nodes*/
+	std::deque<PathNode*>	openList;							/*Let openList be a List of Nodes*/
+	std::deque<PathNode*>	closedList;							/*Let closedList be a List of Nodes*/
+
+//	std::deque<Node*>		traversal;
 
 	bool					currentlySearching;
+
+	void	swapLowestGScoreToFront();
+	void	swapLowestDOSToFront();
+	void	swapHighestDOSToFront();
 };

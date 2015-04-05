@@ -18,13 +18,13 @@ Graph::~Graph()
 		delete (*iterator);
 	}
 
-	for (auto iterator = traversal.begin(); iterator != traversal.end(); ++iterator)
+	/*for (auto iterator = traversal.begin(); iterator != traversal.end(); ++iterator)
 	{
 		delete (*iterator);
-	}
+	}*/
 
 	nodes.clear();
-	traversal.clear();
+//	traversal.clear();
 }
 
 
@@ -81,7 +81,7 @@ void Graph::AddEdge(Node* nodeAlpha_, Node* nodeBeta_, float cost_)
 	}
 }
 
-void Graph::FillAllEdges(int gridSize_, float range_, bool diagonals_, float cost_)
+void Graph::FillAllEdges(int gridSize_, float range_, bool diagonals_, bool randomCosts_, float cost_)
 {
 	if (diagonals_)		//This cross connects the whole grid (upto 8 for a fully surrounded node)
 	{
@@ -97,7 +97,14 @@ void Graph::FillAllEdges(int gridSize_, float range_, bool diagonals_, float cos
 						(nodes[i]->position.y >= nodes[j]->position.y - range_) &&
 						(nodes[i]->position.y <= nodes[j]->position.y + range_))
 					{
-						AddEdge(nodes[i], nodes[j], cost_);
+						if (randomCosts_)
+						{
+							AddEdge(nodes[i], nodes[j], glm::linearRand(1.f, 10.f));
+						}
+						else
+						{
+							AddEdge(nodes[i], nodes[j], cost_);
+						}
 					}
 				}
 			}
@@ -118,7 +125,14 @@ void Graph::FillAllEdges(int gridSize_, float range_, bool diagonals_, float cos
 						(((nodes[i]->position.x == nodes[j]->position.x) && (nodes[i]->position.y >= nodes[j]->position.y - range_)) &&
 						((nodes[i]->position.x == nodes[j]->position.x) && (nodes[i]->position.y <= nodes[j]->position.y + range_))))
 					{
-						AddEdge(nodes[i], nodes[j], cost_);
+						if (randomCosts_)
+						{
+							AddEdge(nodes[i], nodes[j], glm::linearRand(1.f, 10.f));
+						}
+						else
+						{
+							AddEdge(nodes[i], nodes[j], cost_);
+						}
 					}
 				}
 			}
@@ -241,7 +255,7 @@ void	Graph::Update()
 	}
 }
 
-void	Graph::Update(Texture* t1_, Texture* t2_, float cost_)
+void	Graph::Update(Texture* t1_, Texture* t2_, bool randomCosts_, float cost_)
 {
 	////TEST IF A NODE IS WITHIN DETECTION RADIUS OF THE CLICK (10px??) AND DO NOT ADD IF THERE IS - OR REMOVE IF RMB
 
@@ -262,7 +276,14 @@ void	Graph::Update(Texture* t1_, Texture* t2_, float cost_)
 					(nodes[i]->position.y >= temp->position.y - 50.f) &&
 					(nodes[i]->position.y <= temp->position.y + 50.f))
 				{
-					AddEdge(temp, nodes[i], cost_);
+					if (randomCosts_)
+					{
+						AddEdge(temp, nodes[i], glm::linearRand(1.f, 10.f));
+					}
+					else
+					{
+						AddEdge(temp, nodes[i], cost_);
+					}
 				}
 			}
 		}
@@ -298,139 +319,139 @@ void	Graph::Update(Texture* t1_, Texture* t2_, float cost_)
 	}
 }
 
-void	Graph::TraverseDFS()
-{
-	/*
-	Push first node on stack
-	While stack not empty
-		Get the top off the stack and remove it
-		Process it...
-		Mark it as traversed
-		Loop through it's edges
-			If end node of edge not traversed or on the stack
-				Push end node onto the stack
-	*/
-
-	/*//This doesn't work for purty step by stepping...
-	if (traversed)
-	{
-	ClearTraversal();
-	}
-	*/
-
-	if (traversal.empty() && !traversed)
-	{
-		traversal.push_back(nodes[0]);
-		traversed = true;				//This is because of the whole not in a while loop atm
-	}
-
-
-	if (!traversal.empty() && traversed)	//Has already traversed fully...
-	{
-		//This would normally be within a while(!traversal.empty()) loop, but kept seperate for now for hopeful purtyness
-		Node* temp = traversal.back();	//Get reference to top of stack
-		traversal.pop_back();			//Remove top of stack
-
-		//Process Node...
-
-		temp->SetTraversed();
-
-		//Get number of linked nodes stored within temp
-		int num = temp->GetNumberOfEdges();
-
-		//If there are any, push all linked nodes onto stack
-		if (num > 0)
-		{
-			for (int i = 0; i < num; ++i)
-			{
-				//traversal.push_back(temp->GetLinkedNode(i));	//Doesn't check if the node is already on the stack...
-
-				Node* returned = temp->GetLinkedNode(i);
-
-				if (!returned->GetTraversed())	//If it hasn't already been traversed, check if it is already in stack
-				{
-					for (int x = 0; x < traversal.size(); ++x)
-					{
-						if (traversal[x] == returned)
-						{
-							break;	//go to next "i"
-						}
-					}
-
-					//Returned Node not already in stack so add to it
-					traversal.push_back(returned);
-				}
-			}
-		}
-	}
-}
-
-void	Graph::TraverseBFS()
-{
-	/*
-	Push first node on queue
-	While queue not empty
-		Get the top off the queue and remove it
-		Process it...
-		Mark it as traversed
-		Loop through it's edges
-			If end node of edge not traversed or on the queue
-				Push end node onto the queue
-	*/
-
-	/*//This doesn't work for purty step by stepping...
-	if (traversed)
-	{
-	ClearTraversal();
-	}
-	*/
-
-	if (traversal.empty() && !traversed)
-	{
-		traversal.push_back(nodes[0]);
-		traversed = true;				//This is because of the whole not in a while loop atm
-	}
-
-
-	if (!traversal.empty() && traversed)	//Has already traversed fully...
-	{
-		//This would normally be within a while(!traversal.empty()) loop, but kept seperate for now for hopeful purtyness
-		Node* temp = traversal.front();	//Get reference to top of stack
-		traversal.pop_front();			//Remove top of stack
-
-		//Process Node...
-
-		temp->SetTraversed();
-
-		//Get number of linked nodes stored within temp
-		int num = temp->GetNumberOfEdges();
-
-		//If there are any, push all linked nodes onto stack
-		if (num > 0)
-		{
-			for (int i = 0; i < num; ++i)
-			{
-				//traversal.push_back(temp->GetLinkedNode(i));	//Doesn't check if the node is already on the stack...
-
-				Node* returned = temp->GetLinkedNode(i);
-
-				if (!returned->GetTraversed())	//If it hasn't already been traversed, check if it is already in stack
-				{
-					for (int x = 0; x < traversal.size(); ++x)
-					{
-						if (traversal[x] == returned)
-						{
-							break;	//go to next "i"
-						}
-					}
-
-					//Returned Node not already in stack so add to it
-					traversal.push_back(returned);
-				}
-			}
-		}
-	}
-}
+//void	Graph::TraverseDFS()
+//{
+//	/*
+//	Push first node on stack
+//	While stack not empty
+//		Get the top off the stack and remove it
+//		Process it...
+//		Mark it as traversed
+//		Loop through it's edges
+//			If end node of edge not traversed or on the stack
+//				Push end node onto the stack
+//	*/
+//
+//	/*//This doesn't work for purty step by stepping...
+//	if (traversed)
+//	{
+//	ClearTraversal();
+//	}
+//	*/
+//
+//	if (traversal.empty() && !traversed)
+//	{
+//		traversal.push_back(nodes[0]);
+//		traversed = true;				//This is because of the whole not in a while loop atm
+//	}
+//
+//
+//	if (!traversal.empty() && traversed)	//Has already traversed fully...
+//	{
+//		//This would normally be within a while(!traversal.empty()) loop, but kept seperate for now for hopeful purtyness
+//		Node* temp = traversal.back();	//Get reference to top of stack
+//		traversal.pop_back();			//Remove top of stack
+//
+//		//Process Node...
+//
+//		temp->SetTraversed();
+//
+//		//Get number of linked nodes stored within temp
+//		int num = temp->GetNumberOfEdges();
+//
+//		//If there are any, push all linked nodes onto stack
+//		if (num > 0)
+//		{
+//			for (int i = 0; i < num; ++i)
+//			{
+//				//traversal.push_back(temp->GetLinkedNode(i));	//Doesn't check if the node is already on the stack...
+//
+//				Node* returned = temp->GetLinkedNode(i);
+//
+//				if (!returned->GetTraversed())	//If it hasn't already been traversed, check if it is already in stack
+//				{
+//					for (int x = 0; x < traversal.size(); ++x)
+//					{
+//						if (traversal[x] == returned)
+//						{
+//							break;	//go to next "i"
+//						}
+//					}
+//
+//					//Returned Node not already in stack so add to it
+//					traversal.push_back(returned);
+//				}
+//			}
+//		}
+//	}
+//}
+//
+//void	Graph::TraverseBFS()
+//{
+//	/*
+//	Push first node on queue
+//	While queue not empty
+//		Get the top off the queue and remove it
+//		Process it...
+//		Mark it as traversed
+//		Loop through it's edges
+//			If end node of edge not traversed or on the queue
+//				Push end node onto the queue
+//	*/
+//
+//	/*//This doesn't work for purty step by stepping...
+//	if (traversed)
+//	{
+//	ClearTraversal();
+//	}
+//	*/
+//
+//	if (traversal.empty() && !traversed)
+//	{
+//		traversal.push_back(nodes[0]);
+//		traversed = true;				//This is because of the whole not in a while loop atm
+//	}
+//
+//
+//	if (!traversal.empty() && traversed)	//Has already traversed fully...
+//	{
+//		//This would normally be within a while(!traversal.empty()) loop, but kept seperate for now for hopeful purtyness
+//		Node* temp = traversal.front();	//Get reference to top of stack
+//		traversal.pop_front();			//Remove top of stack
+//
+//		//Process Node...
+//
+//		temp->SetTraversed();
+//
+//		//Get number of linked nodes stored within temp
+//		int num = temp->GetNumberOfEdges();
+//
+//		//If there are any, push all linked nodes onto stack
+//		if (num > 0)
+//		{
+//			for (int i = 0; i < num; ++i)
+//			{
+//				//traversal.push_back(temp->GetLinkedNode(i));	//Doesn't check if the node is already on the stack...
+//
+//				Node* returned = temp->GetLinkedNode(i);
+//
+//				if (!returned->GetTraversed())	//If it hasn't already been traversed, check if it is already in stack
+//				{
+//					for (int x = 0; x < traversal.size(); ++x)
+//					{
+//						if (traversal[x] == returned)
+//						{
+//							break;	//go to next "i"
+//						}
+//					}
+//
+//					//Returned Node not already in stack so add to it
+//					traversal.push_back(returned);
+//				}
+//			}
+//		}
+//	}
+//}
 
 void	Graph::ClearTraversal()
 {

@@ -6,7 +6,7 @@
 #include <glm/ext.hpp>
 
 #include <vector>
-#include <deque>
+//#include <deque>
 #include <list>
 
 #include "Node.h"
@@ -33,7 +33,7 @@ public:
 	Node*	FindNode(vec3 position_);		//Find node by value (position)
 
 	void	AddEdge(Node* nodeAlpha_, Node* nodeBeta_, float cost_ = -1.0f/*, Edge data (cost, etc)*/);	//directed_ assumes nodeAlpha -> nodeBeta
-	void	FillAllEdges(int gridSize_, float range_, bool diagonals_, float cost_ = -1.0f);	//This has no directed functionality - solely undirected (ie, edge version both ways)
+	void	FillAllEdges(int gridSize_, float range_, bool diagonals_, bool randomCosts_, float cost_ = -1.0f);	//This has no directed functionality - solely undirected (ie, edge version both ways)
 	void	RemoveEdge(Node* nodeAlpha_, Node* nodeBeta_);
 	void	DisplayToConsole();
 	void	DisplayToScreen(SpriteBatch* spriteBatch_, Texture* texture_);
@@ -41,10 +41,10 @@ public:
 	void	DisplayToScreen(SpriteBatch* spriteBatch_, bool displayIDs_, bool displayCosts_, bool displayDirections_, Font* font_);
 
 	void	Update();
-	void	Update(Texture* t1_, Texture* t2_, float cost_ = -1.0f);
+	void	Update(Texture* t1_, Texture* t2_, bool randomCosts_, float cost_ = -1.0f);
 
-	void	TraverseDFS();
-	void	TraverseBFS();
+//	void	TraverseDFS();
+//	void	TraverseBFS();
 
 	void	ClearTraversal();
 
@@ -59,7 +59,7 @@ protected:
 	bool	traversed;
 
 	std::vector<Node*>	nodes;
-	std::deque<Node*>	traversal;
+//	std::deque<Node*>	traversal;
 
 	std::list<Node*>	openList;
 	std::list<Node*>	closedList;

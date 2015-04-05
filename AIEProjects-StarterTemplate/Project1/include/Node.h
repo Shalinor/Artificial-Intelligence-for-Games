@@ -30,7 +30,9 @@ public:
 	void	DisplayEdgesToConsole();
 	void	DisplayEdgeIDToConsole();
 	void	DisplayEdgesToScreen(SpriteBatch* spriteBatch_);
+	void	DisplayEdgesToScreen(SpriteBatch* spriteBatch_, bool displayCosts_, bool displayDirections_, Font* font_);	//Curently only displaying integered versions of the cost
 	void	DisplayNodeToScreen(SpriteBatch* spriteBatch_);
+	void	DisplayNodeToScreen(SpriteBatch* spriteBatch_, bool displayIDs_, Font* font_);
 
 	void	DisplayIDToConsole();
 
@@ -54,13 +56,16 @@ public:
 		Node*	end;
 
 		float	GetCost(){ return cost; }
+		char*	GetDisplayableCost(){ return displayableCost; }	//Curently only displaying integered versions of the cost
 
 	private:
 		//Any relevant data...	If data is used, need to add Getter functions...
 		float	cost;
+		char*	displayableCost;
 	};
 	
 	int					id;
+	char*				displayableID;
 	bool				traversed;
 	Texture*			traversedTexture;
 	Texture*			untraversedTexture;

@@ -1,5 +1,7 @@
 #include "Node.h"
 
+//#include <stdlib.h>
+
 
 Node::Node(vec3 position_)
 {
@@ -12,6 +14,10 @@ Node::Node(vec3 position_, Texture* untraversed_, Texture* traversed_)
 	//Really bad, but just for testing the traversals against slides...
 	static int id_ = -1;
 	id = ++id_;
+	
+	//Make a char* version of the id for potential display to screen
+	displayableID = new char;
+	_itoa_s(id, displayableID, sizeof(id), 10);
 
 	position = position_;
 
@@ -90,8 +96,61 @@ void	Node::DisplayEdgesToScreen(SpriteBatch* spriteBatch_)
 	}
 }
 
+void	Node::DisplayEdgesToScreen(SpriteBatch* spriteBatch_, bool displayCosts_, bool displayDirections_, Font* font_)
+{
+	for (int i = 0; i != edges.size(); ++i)
+	{
+		spriteBatch_->DrawLine(edges[i]->start->position.x, edges[i]->start->position.y, edges[i]->end->position.x, edges[i]->end->position.y);
+
+		if (displayCosts_)
+		{
+			float startX = edges[i]->start->position.x;
+			float startY = edges[i]->start->position.y;
+			float endX = edges[i]->end->position.x;
+			float endY = edges[i]->end->position.y;
+
+			float displayX = 0.f, displayY = 0.f;
+
+			if (startX == endX)			//Vertical
+			{
+				displayX = startX + 1.f;
+				displayY = startY + ((startY - endY) / 2.f);
+			}
+			else if (startY == endY)	//Horizontal
+			{
+				displayX = startX + ((startX - endX) / 2.f);
+				displayY = startY + 1.f;
+			}
+			else						//Diagonal
+			{
+				displayX = startX + ((startX - endX) / 2.f);
+				displayY = startY + ((startY - endY) / 2.f);
+			}
+
+			spriteBatch_->DrawString(font_, edges[i]->GetDisplayableCost(), displayX, displayY);
+		}
+	}
+}
+
 void	Node::DisplayNodeToScreen(SpriteBatch* spriteBatch_)
 {
+	if (traversed)
+	{
+		spriteBatch_->DrawSprite(traversedTexture, position.x, position.y, 10.f, 10.f);
+	}
+	else	//untraversed
+	{
+		spriteBatch_->DrawSprite(untraversedTexture, position.x, position.y, 10.f, 10.f);
+	}
+}
+
+void	Node::DisplayNodeToScreen(SpriteBatch* spriteBatch_, bool displayIDs_, Font* font_)
+{
+	if (displayIDs_)
+	{
+		spriteBatch_->DrawString(font_, displayableID, position.x - (5 + (5.f * (float)(strlen(displayableID)))), position.y - 11.f);
+	}
+
 	if (traversed)
 	{
 		spriteBatch_->DrawSprite(traversedTexture, position.x, position.y, 10.f, 10.f);
@@ -131,6 +190,9 @@ Node::Edge::Edge(Node* start_, Node* end_, float cost_)
 	{
 		cost = cost_;
 	}
+
+	displayableCost = new char;
+	sprintf_s(displayableCost, sizeof(displayableCost), "%i", (int)cost);
 }
 
 void Node::Edge::DisplayToConsole()

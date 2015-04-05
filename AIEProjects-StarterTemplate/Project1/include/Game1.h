@@ -57,10 +57,16 @@ protected:
 	bool				newSearch;
 	bool				continueSearch;
 	bool				spaceReleased;
-
 	bool				rReleased;
-
 	bool				pReleased;
+	bool				sReleased;
+	bool				eReleased;
+	bool				iReleased;
+	bool				cReleased;
+	bool				dReleased;
+	bool				oneReleased;
+	bool				twoReleased;
+	bool				threeReleased;
 
 	int					gridSize;
 	float				gridSpacing;
@@ -72,6 +78,10 @@ protected:
 	Font*				menuFont;
 	char*				menuText;
 	vec2				menuPos;
+
+	bool				displayIDs;
+	bool				displayCosts;
+	bool				displayDirections;
 
 	void				LoadMenu();
 };

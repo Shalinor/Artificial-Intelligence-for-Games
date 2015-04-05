@@ -175,18 +175,17 @@ void	Graph::DisplayToScreen(SpriteBatch* spriteBatch_)
 	}
 }
 
-void	Graph::DisplayToScreen(SpriteBatch* spriteBatch_, bool displayIDs, bool displayCosts, bool displayDirections, Font* font)
+void	Graph::DisplayToScreen(SpriteBatch* spriteBatch_, bool displayIDs_, bool displayCosts_, bool displayDirections_, Font* font_)
 {
 	for (int i = 0; i != nodes.size(); ++i)
 	{
-		nodes[i]->DisplayEdgesToScreen(spriteBatch_);
-		//nodes[i]->DisplayNodeToScreen(spriteBatch_);
+		nodes[i]->DisplayEdgesToScreen(spriteBatch_, displayCosts_, displayDirections_, font_);
 	}
 
 	//Split to allow all edges to be drawn before any nodes to ensure ALL nodes are on top of ALL edges
 	for (int i = 0; i != nodes.size(); ++i)
 	{
-		nodes[i]->DisplayNodeToScreen(spriteBatch_);
+		nodes[i]->DisplayNodeToScreen(spriteBatch_, displayIDs_, font_);
 	}
 }
 

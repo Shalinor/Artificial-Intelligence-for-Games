@@ -10,35 +10,43 @@
 
 Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscreen, const char *title) : Application(windowWidth, windowHeight, fullscreen, title)
 {
-	LoadMenu();
-
 	m_spritebatch = SpriteBatch::Factory::Create(this, SpriteBatch::GL3);
 
 	input = Input::GetSingleton();
 
+	LoadMenu();			//Loads menuText from text file
 	//menuFont = new Font("./Fonts/calibri_24px.fnt");
 	//menuFont = new Font("./Fonts/arial_20px.fnt");
-	menuFont = new Font("./Fonts/CourierNew_11px.fnt");
-//	menuText = "ESC - Exit program\nSpace - step through search\nSomething else";	//Ideally load in from a file...
-	menuPos = vec2(0.f, 0.f);
+	menuFont			= new Font("./Fonts/CourierNew_11px.fnt");
+	menuPos				= vec2(0.f, 0.f);
 
 
-	defaultTexture = new Texture("./Images/circle_blue.png");
-	startTexture = new Texture("./Images/circle_red.png");
-	endTexture = new Texture("./Images/circle_orange.png");
-	traversedTexture = new Texture("./Images/circle_yellow.png");
-	pathTexture = new Texture("./Images/circle_green.png");
+	defaultTexture		= new Texture("./Images/circle_blue.png");
+	startTexture		= new Texture("./Images/circle_red.png");
+	endTexture			= new Texture("./Images/circle_orange.png");
+	traversedTexture	= new Texture("./Images/circle_yellow.png");
+	pathTexture			= new Texture("./Images/circle_green.png");
 
-	graph = new Graph(true, 10.f);	//true == directed == oneway only
+	graph				= new Graph(true, 10.f);	//true == directed == oneway only
 
-	pathfinder = new Pathfinder();
-	newSearch = false;
-	continueSearch = false;
-	spaceReleased = true;
+	pathfinder			= new Pathfinder();
+	newSearch			= false;
+	continueSearch		= false;
+	spaceReleased		= true;
+	rReleased			= true;
+	pReleased			= true;
+	sReleased			= true;
+	eReleased			= true;
+	iReleased			= true;
+	cReleased			= true;
+	dReleased			= true;
+	oneReleased			= true;
+	twoReleased			= true;
+	threeReleased		= true;
 
-	rReleased = true;
-
-	pReleased = true;
+	displayIDs			= false;
+	displayCosts		= false;
+	displayDirections	= false;
 
 	//Now to create a grid of nodes...
 
@@ -79,7 +87,7 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	//graph->AddEdge(node1, node6, 500.f);
 	//graph->AddEdge(node6, node5, 600.f);
 
-	graph->DisplayToConsole();
+//	graph->DisplayToConsole();
 
 	////std::list<Node*>	potEndNodes;
 	//potEndNodes.push_back(node5);
@@ -103,6 +111,59 @@ void Game1::Update(float deltaTime)
 	if (input->IsKeyDown(GLFW_KEY_L))
 	{
 		LoadMenu();
+	}
+
+	if (input->IsKeyDown(GLFW_KEY_S) && sReleased)
+	{
+		//Set Start Node
+		sReleased = false;
+	}
+	else if (input->IsKeyUp(GLFW_KEY_S))
+	{
+		sReleased = true;
+	}
+
+	if (input->IsKeyDown(GLFW_KEY_E) && eReleased)
+	{
+		//Set End Node
+		eReleased = false;
+	}
+	else if (input->IsKeyUp(GLFW_KEY_E))
+	{
+		eReleased = true;
+	}
+
+	if (input->IsKeyDown(GLFW_KEY_I) && iReleased)
+	{
+		//Set Display IDs
+		displayIDs = !displayIDs;
+		iReleased = false;
+	}
+	else if (input->IsKeyUp(GLFW_KEY_I))
+	{
+		iReleased = true;
+	}
+
+	if (input->IsKeyDown(GLFW_KEY_C) && cReleased)
+	{
+		//Set Display Costs
+		displayCosts = !displayCosts;
+		cReleased = false;
+	}
+	else if (input->IsKeyUp(GLFW_KEY_C))
+	{
+		cReleased = true;
+	}
+	
+	if (input->IsKeyDown(GLFW_KEY_D) && dReleased)
+	{
+		//Set Display Directions
+		displayDirections = !displayDirections;
+		dReleased = false;
+	}
+	else if (input->IsKeyUp(GLFW_KEY_D))
+	{
+		dReleased = true;
 	}
 
 	if (input->IsKeyDown(GLFW_KEY_SPACE) && spaceReleased)
@@ -180,7 +241,7 @@ void Game1::Draw()
 	m_spritebatch->DrawString(menuFont, menuText, menuPos.x, menuPos.y);
 
 	//Draw graph
-	graph->DisplayToScreen(m_spritebatch);
+	graph->DisplayToScreen(m_spritebatch, displayIDs, displayCosts, displayDirections, menuFont);
 
 	if (!outPath.empty())
 	{

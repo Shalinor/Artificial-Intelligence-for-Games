@@ -89,7 +89,7 @@ void Pathfinder::Dijkstras(Node* start_, const std::list<Node*> &potentialEnd_, 
 		for (auto iterator = currentNode->node->edges.begin(); iterator != currentNode->node->edges.end(); ++iterator)
 		{
 			bool inClosedList = false;
-//			bool inOpenList = false;
+			bool inOpenList = false;
 
 			//Test for presence within closedList				/*Add c.connection to openList if not in closedList*/
 			for (auto cLIterator = closedList.begin(); cLIterator != closedList.end(); ++cLIterator)
@@ -101,8 +101,8 @@ void Pathfinder::Dijkstras(Node* start_, const std::list<Node*> &potentialEnd_, 
 				}
 			}
 
-			//Test for presence within openList					/*NOT in guides, but trying it anyway*/
-/*			for (auto oLIterator = openList.begin(); oLIterator != openList.end(); ++oLIterator)
+			//Test for presence within openList					/*NOT in tutorial, but is in lecture note AND Sam said to do it <email 07-04-15>*/
+			for (auto oLIterator = openList.begin(); oLIterator != openList.end(); ++oLIterator)
 			{
 				if (((*iterator)->end) == ((*oLIterator)->node))
 				{
@@ -110,8 +110,8 @@ void Pathfinder::Dijkstras(Node* start_, const std::list<Node*> &potentialEnd_, 
 					break;
 				}
 			}
-*/
-			if (!inClosedList/* && !inOpenList*/)
+
+			if (!inClosedList && !inOpenList)
 			{
 				PathNode* temp = new PathNode();
 				temp->node = (*iterator)->end;
@@ -123,7 +123,6 @@ void Pathfinder::Dijkstras(Node* start_, const std::list<Node*> &potentialEnd_, 
 			}
 		}
 	}
-//	}
 
 	if (openList.empty())	//Covers if no path found.
 	{
@@ -196,6 +195,7 @@ void	Pathfinder::BFS_DFS(Node* startNode_, bool DFS_)
 	for (auto iterator = currentNode->node->edges.begin(); iterator != currentNode->node->edges.end(); ++iterator)
 	{
 		bool inClosedList = false;
+		bool inOpenList = false;
 
 		//Test for presence within closedList				/*Add c.connection to openList if not in closedList*/
 		for (auto cLIterator = closedList.begin(); cLIterator != closedList.end(); ++cLIterator)
@@ -207,13 +207,28 @@ void	Pathfinder::BFS_DFS(Node* startNode_, bool DFS_)
 			}
 		}
 
-		if (!inClosedList)
+		//Test for presence within openList					/*NOT in tutorial, but is in lecture note AND Sam said to do it <email 07-04-15>*/
+		for (auto oLIterator = openList.begin(); oLIterator != openList.end(); ++oLIterator)
+		{
+			if (((*iterator)->end) == ((*oLIterator)->node))
+			{
+				inOpenList = true;
+				break;
+			}
+		}
+
+		if (!inClosedList && !inOpenList)
 		{
 			PathNode* temp = new PathNode();
 			temp->node = (*iterator)->end;
 			temp->degreesOfSeperation = currentNode->degreesOfSeperation + 1;
 			openList.push_back(temp);						/*Add c.connection to openList if not in closedList*/
 		}
+	}
+
+	if (openList.empty())
+	{
+		ResetSearch();
 	}
 }
 

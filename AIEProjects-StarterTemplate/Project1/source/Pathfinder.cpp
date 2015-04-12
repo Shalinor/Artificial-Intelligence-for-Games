@@ -269,131 +269,43 @@ void Pathfinder::swapHighestDOSToFront()
 }
 
 
-
-
-/*
-void	Pathfinder::DepthFirstSearch(Node* startNode_)
+void Pathfinder::AStar(Node* start_, Node* end_)
 {
-	/*
-	Push first node on stack
-	While stack not empty
-	Get the top off the stack and remove it
-	Process it...
-	Mark it as traversed
-	Loop through it's edges
-	If end node of edge not traversed or on the stack
-	Push end node onto the stack
-	*/
-/*
-	//If first instance of search, set it up
-	if (!currentlySearching)
-	{
-		currentlySearching = true;
 
-		//Reset the lists
-		traversal.clear();
-
-		//Prime the dequeue
-		traversal.push_back(startNode_);
-	}
-
-
-	if (!traversal.empty() && currentlySearching)	// <-?????
-	{
-		Node* temp = traversal.back();	//Get reference to top of stack
-		traversal.pop_back();			//Remove top of stack
-
-		//Process Node...
-
-		temp->SetTraversed();
-
-		//Get number of linked nodes stored within temp
-		int num = temp->GetNumberOfEdges();
-
-		//If there are any, push all linked nodes onto stack
-		if (num > 0)
-		{
-			for (int i = 0; i < num; ++i)
-			{
-				Node* returned = temp->GetLinkedNode(i);
-
-				if (!returned->GetTraversed())					//If it hasn't already been traversed
-				{
-					for (int x = 0; x < traversal.size(); ++x)	//check if it is already in stack
-					{
-						if (traversal[x] == returned)
-						{
-							break;	//go to next "i"
-						}
-					}
-
-					//Returned Node not already in stack so add to it
-					traversal.push_back(returned);
-				}
-			}
-		}
-	}
 }
 
-void	Pathfinder::BreadthFirstSearch(Node* startNode_)
-{
-	/*
-	Push first node on queue
-	While queue not empty
-	Get the top off the queue and remove it
-	Process it...
-	Mark it as traversed
-	Loop through it's edges
-	If end node of edge not traversed or on the queue
-	Push end node onto the queue
-	*/
-/*	//If first instance of search, set it up
-	if (!currentlySearching)
-	{
-		currentlySearching = true;
-
-		//Reset the lists
-		traversal.clear();
-
-		//Prime the dequeue
-		traversal.push_back(startNode_);
-	}
-
-
-	if (!traversal.empty() && currentlySearching)	// <-?????
-	{
-		Node* temp = traversal.front();	//Get reference to front of queue
-		traversal.pop_front();			//Remove front of queue
-
-		//Process Node...
-
-		temp->SetTraversed();
-
-		//Get number of linked nodes stored within temp
-		int num = temp->GetNumberOfEdges();
-
-		//If there are any, push all linked nodes onto stack
-		if (num > 0)
-		{
-			for (int i = 0; i < num; ++i)
-			{
-				Node* returned = temp->GetLinkedNode(i);
-
-				if (!returned->GetTraversed())					//If it hasn't already been traversed
-				{
-					for (int x = 0; x < traversal.size(); ++x)	//check if it is already in stack
-					{
-						if (traversal[x] == returned)
-						{
-							break;	//go to next "i"
-						}
-					}
-
-					//Returned Node not already in stack so add to it
-					traversal.push_back(returned);
-				}
-			}
-		}
-	}
-}
+/*
+Procedure FindAStar(startNode, endNode)							*** New for A* ***
+	Let openList be a List of Nodes
+	Let closedList be a List of Nodes
+	
+	Add startNode to openList
+	
+	While openList is not empty
+		Sort openList by Node.fScore
+		
+		Let currentNode = first item in openList
+		
+		// Process the node, do what you want with it. EG:
+		if currentNode equals endNode							*** New for A* ***
+			break out of loop									*** New for A* ***
+			
+		remove currentNode from openList
+		Add currentNode to closedList
+		
+		for all Edges e in currentNode
+			Let n = e.connection
+			Add n to openList if not in closedList
+			n.gScore = currentNode.gScore + e.cost				*** New for A* ***
+			n.hScore = distance from n to endNode				*** New for A* ***
+			n.fScore = n.gScore + n.hScore						*** New for A* ***
+			n.parent = currentNode
+			
+		
+	// Calculate Path
+	Let path be a List of Vector2
+	Let currentNode = endNode;
+	While currentNode != NULL
+		Add currentNode.position to path
+		currentNode = currentNode.parent
 */

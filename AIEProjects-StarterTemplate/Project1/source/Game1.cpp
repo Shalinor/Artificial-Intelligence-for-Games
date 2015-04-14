@@ -51,6 +51,7 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	oneReleased			= true;
 	twoReleased			= true;
 	threeReleased		= true;
+	fourReleased		= true;
 
 	mouseLeftReleased	= true;
 	//mouseRightReleased	= true;
@@ -289,6 +290,21 @@ void Game1::Update(float deltaTime)
 		threeReleased = true;
 	}
 
+	if (input->IsKeyDown(GLFW_KEY_4) && fourReleased)
+	{
+		if (chosenSearch != ASTAR)
+		{
+			//Set A* as chosen search and reset
+			chosenSearch = ASTAR;
+			ResetSearches();
+			fourReleased = false;
+		}
+	}
+	else if (input->IsKeyUp(GLFW_KEY_4))
+	{
+		fourReleased = true;
+	}
+
 
 	///Searching - Reset, Step-thru, Run-thru...
 	if (input->IsKeyDown(GLFW_KEY_R) && rReleased)
@@ -427,6 +443,12 @@ void Game1::Search()
 		if (startNode && !potEndNodes.empty())		//Ensure that the requisite values are in place
 		{
 			pathfinder->Dijkstras(startNode, potEndNodes, outPath);
+		}
+		break;
+	case ASTAR:
+		if (startNode && !potEndNodes.empty() && (potEndNodes.size() == 1))		//Ensure that the requisite values are in place
+		{
+			pathfinder->AStar(startNode, potEndNodes.front(), outPath);
 		}
 		break;
 	default:

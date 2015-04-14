@@ -25,7 +25,8 @@ public:
 						bool	DFS_);
 
 	void	AStar(		Node*	start_,
-						Node*	end_);
+						Node*	end_,
+						std::list<Node*> &outPath_);
 
 	//Don't use these - incorporated into the BFS_DFS above
 //	void	BreadthFirstSearch(Node* startNode_);
@@ -52,6 +53,9 @@ private:
 
 	bool					currentlySearching;
 
+
+	/* I want to combine these with an enum indicating what swap we want*/
+	void	swapLowestFScoreToFront();
 	void	swapLowestGScoreToFront();
 	void	swapLowestDOSToFront();
 	void	swapHighestDOSToFront();

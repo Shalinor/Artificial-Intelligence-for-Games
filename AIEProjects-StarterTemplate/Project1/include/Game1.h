@@ -79,6 +79,7 @@ protected:
 	bool				oneReleased;
 	bool				twoReleased;
 	bool				threeReleased;
+	bool				fourReleased;
 
 	bool				mouseLeftReleased;
 	//bool				mouseRightReleased;

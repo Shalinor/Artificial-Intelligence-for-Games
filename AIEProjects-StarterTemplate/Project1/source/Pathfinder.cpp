@@ -232,6 +232,18 @@ void	Pathfinder::BFS_DFS(Node* startNode_, bool DFS_)
 	}
 }
 
+void Pathfinder::swapLowestFScoreToFront()		//Stolen from Jez :/
+{
+	for (auto &t : openList)
+	{
+		if (openList.front()->fScore > t->fScore)
+		{
+			//swap(tList.front(), t);
+			std::swap(openList.front(), t);
+		}
+	}
+}
+
 void Pathfinder::swapLowestGScoreToFront()		//Stolen from Jez :/
 {
 	for (auto &t : openList)
@@ -269,9 +281,138 @@ void Pathfinder::swapHighestDOSToFront()
 }
 
 
-void Pathfinder::AStar(Node* start_, Node* end_)
+void Pathfinder::AStar(Node* start_, Node* end_, std::list<Node*> &outPath_)
 {
+	//std::list<PathNode*>	openList;							/*Let openList be a List of Nodes*/
+	//std::list<PathNode*>	closedList;							/*Let closedList be a List of Nodes*/
 
+	PathNode* endNode = NULL;									/*Let endNode be a Node set to NULL*/
+	PathNode* currentNode = NULL;
+
+	//If first instance of search, set it up
+	if (!currentlySearching)
+	{
+		currentlySearching = true;
+
+		//Reset the lists
+		openList.clear();
+		closedList.clear();
+		outPath_.clear();
+
+		//PathNode* endNode = NULL;									/*Let endNode be a Node set to NULL*/
+		//PathNode* currentNode = NULL;
+
+		PathNode* pathStart = new PathNode();
+
+		pathStart->node = start_;									/*Add startNode to openList*/
+
+		openList.push_back(pathStart);
+	}
+
+	//Always iterate through one node...
+	//	while (!openList.empty())									/*While openList is not empty*/
+	//	{
+	/*Sort openList by Node.gScore*/
+	//REPLACED LIST WITH DEQUE AND SWAPING LOWEST TO FRONT INSTEAD OF SORTING	openList.sort([](const PathNode* nodeA, const PathNode* nodeB){return nodeA->gScore < nodeB->gScore; });
+
+	swapLowestFScoreToFront();
+
+	currentNode = openList.front();							/*Let currentNode = first item in openList*/
+
+
+	/*// Process the node, do what you want with it. EG:
+	if currentNode is one of the potentialEnd
+	endNode = currentNode
+	break out of loop*/
+
+	//Process Node...
+	if (currentNode->node == end_)				/*if currentNode is the end_ node*/
+	{
+		endNode = currentNode;					/*endNode = currentNode*/
+	}
+	
+	//If endNode is not NULL, a path has been found so stop searching
+	if (endNode == NULL)
+	{
+		openList.pop_front();									/*Remove currentNode from openList*/
+		closedList.push_back(currentNode);						/*Add currentNode to closedList*/
+
+
+		/*for all connections c in currentNode
+			Let n = c.connection
+			Add n to openList if not in closedList
+			n.gScore = currentNode.gScore + c.cost
+			n.hScore = distance from n to endNode
+			n.fScore = n.gScore + n.hScore
+			n.parent = currentNode*/
+
+
+		//(*iterator) == edge/connection within currentNode->node			/*for all connections c in currentNode*/
+		for (auto iterator = currentNode->node->edges.begin(); iterator != currentNode->node->edges.end(); ++iterator)
+		{
+			bool inClosedList = false;
+			bool inOpenList = false;
+
+			//Test for presence within closedList				/*Add c.connection to openList if not in closedList*/
+			for (auto cLIterator = closedList.begin(); cLIterator != closedList.end(); ++cLIterator)
+			{
+				if (((*iterator)->end) == ((*cLIterator)->node))
+				{
+					inClosedList = true;
+					break;
+				}
+			}
+
+			//Test for presence within openList					/*NOT in tutorial, but is in lecture note AND Sam said to do it <email 07-04-15>*/
+			for (auto oLIterator = openList.begin(); oLIterator != openList.end(); ++oLIterator)
+			{
+				if (((*iterator)->end) == ((*oLIterator)->node))
+				{
+					inOpenList = true;
+					break;
+				}
+			}
+
+			if (!inClosedList && !inOpenList)
+			{
+				PathNode* temp = new PathNode();
+				temp->node = (*iterator)->end;
+				temp->node->SetTraversed();		//For display purposes only
+				/*n.gScore = currentNode.gScore + c.cost*/
+				temp->gScore = currentNode->gScore + (*iterator)->GetCost();
+				/*n.hScore = distance from n to endNode*/
+				vec3 nPos = temp->node->GetPosition();
+				vec3 endPos = end_->GetPosition();
+				vec3 distVector = nPos - endPos;
+				float distance = sqrtf((distVector.x * distVector.x) + (distVector.y * distVector.y));
+				temp->hScore = distance;
+				/*n.fScore = n.gScore + n.hScore*/
+				temp->fScore = temp->gScore + temp->hScore;
+
+				temp->parent = currentNode;						/*c.connection.parent = currentNode*/
+				openList.push_back(temp);						/*Add c.connection to openList if not in closedList*/
+			}
+		}
+	}
+
+	if (openList.empty())	//Covers if no path found.
+	{
+		currentlySearching = false;
+	}
+
+	if (endNode != NULL)	//If openList is empty, search is complete (whether a path is found or not)...
+	{
+		currentlySearching = false;	//Search is completed
+		//Calculate Path											/*//Calculate Path*/
+		outPath_.clear();		//Clear any pre-existing path		/*Let path be a List of Vector2*/
+
+		currentNode = endNode;										/*Let currentNode = endNode;*/
+		while (currentNode != NULL)									/*While currentNode != NULL*/
+		{
+			outPath_.push_front(currentNode->node);					/*Add currentNode.position to path*/ //<-path was for debug output
+			currentNode = currentNode->parent;						/*currentNode = currentNode.parent*/
+		}
+	}
 }
 
 /*

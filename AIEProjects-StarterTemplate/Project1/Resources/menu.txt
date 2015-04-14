@@ -9,6 +9,7 @@ Search Type:
 1       Breadth First
 2       Depth First
 3       Dijkstra's
+4       A*
 ---------------------------
 R       Reset search
 P       Run through search

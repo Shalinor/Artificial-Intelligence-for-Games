@@ -75,6 +75,23 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 
 	graph->FillAllEdges(gridSize, gridSpacing, false, randomCosts, 1.f);
 
+	Node*	temp = graph->GetFirstNode();
+	
+	if (temp != NULL)
+	{
+		startNode = temp;
+	}
+
+	temp = graph->GetLastNode();
+
+	if (temp != NULL)
+	{
+		potEndNodes.push_back(temp);
+	}
+	
+	temp = NULL;
+	delete temp;
+
 	//Attempting to duplicate the slide's 6 node graph
 	/*Node* node1 = new Node(vec3(100, 50, 0), defaultTexture, traversedTexture);	//0
 	Node* node2 = new Node(vec3(200, 50, 0), defaultTexture, traversedTexture);	//1

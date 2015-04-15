@@ -32,6 +32,9 @@ public:
 
 	Node*	FindNode(vec3 position_);		//Find node by value (position)
 
+	Node*	GetFirstNode();
+	Node*	GetLastNode();
+
 	void	AddEdge(Node* nodeAlpha_, Node* nodeBeta_, float cost_ = -1.0f/*, Edge data (cost, etc)*/);	//directed_ assumes nodeAlpha -> nodeBeta
 	void	FillAllEdges(int gridSize_, float range_, bool diagonals_, bool randomCosts_, float cost_ = -1.0f);	//This has no directed functionality - solely undirected (ie, edge version both ways)
 	void	RemoveEdge(Node* nodeAlpha_, Node* nodeBeta_);

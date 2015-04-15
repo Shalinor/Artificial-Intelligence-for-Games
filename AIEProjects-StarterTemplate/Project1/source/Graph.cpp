@@ -70,6 +70,26 @@ Node* Graph::FindNode(vec3 position_)
 	return NULL;
 }
 
+Node*	Graph::GetFirstNode()
+{
+	if (nodes.empty())
+	{
+		return NULL;
+	}
+
+	return nodes.front();
+}
+
+Node*	Graph::GetLastNode()
+{
+	if (nodes.empty())
+	{
+		return NULL;
+	}
+
+	return nodes.back();
+}
+
 void Graph::AddEdge(Node* nodeAlpha_, Node* nodeBeta_, float cost_)
 {
 	nodeAlpha_->AddEdge(nodeAlpha_, nodeBeta_, cost_);

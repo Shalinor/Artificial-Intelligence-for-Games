@@ -2,6 +2,7 @@
 
 #include <list>
 #include <deque>
+#include <limits>
 
 #include "Node.h"
 
@@ -44,6 +45,16 @@ private:
 		float		gScore;					//Dijkstra's
 		float		hScore;					//A* - Huristic
 		float		fScore;					//A* - Final Score (gScore + hScore)
+
+		PathNode()
+		{
+			node = NULL;
+			parent = NULL;
+			degreesOfSeperation = 0;
+			gScore = std::numeric_limits<float>::infinity();
+			hScore = 0.f;
+			fScore = 0.f;
+		}
 	};
 
 	std::deque<PathNode*>	openList;							/*Let openList be a List of Nodes*/
@@ -53,6 +64,7 @@ private:
 
 	bool					currentlySearching;
 
+	float	Get2DDistance(vec3 distVector_){ return sqrtf((distVector_.x * distVector_.x) + (distVector_.y * distVector_.y)); }
 
 	/* I want to combine these with an enum indicating what swap we want*/
 	void	swapLowestFScoreToFront();

@@ -64,6 +64,7 @@ protected:
 	Pathfinder*			pathfinder;
 
 	bool				randomCosts;
+	bool                diagonals;
 
 	SearchOptions		chosenSearch;
 	bool				newSearch;

@@ -35,7 +35,8 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	startNode			= NULL;
 	potEndNodes.clear();
 
-	randomCosts			= true;
+	randomCosts			= false;
+	diagonals           = false;
 
 	chosenSearch		= DIJKSTRAS;
 	newSearch			= false;
@@ -57,13 +58,13 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	//mouseRightReleased	= true;
 
 	displayIDs			= false;
-	displayCosts		= true;
+	displayCosts		= false;
 	displayDirections	= false;
 
 	//Now to create a grid of nodes...
 
-	gridSize = 11;
-	gridSpacing = 45.f;
+	gridSize = 46;//11;
+	gridSpacing = 10.f;//45f;
 
 	for (int y = 1; y < gridSize; ++y)
 	{
@@ -73,7 +74,7 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 		}
 	}
 
-	graph->FillAllEdges(gridSize, gridSpacing, false, randomCosts, 1.f);
+	graph->FillAllEdges(gridSize, gridSpacing, diagonals, randomCosts, 1.f);
 
 	Node*	temp = graph->GetFirstNode();
 	
@@ -400,6 +401,27 @@ void Game1::Draw()
 	//Draw menu
 	m_spritebatch->DrawString(menuFont, menuText, menuPos.x, menuPos.y);
 
+    //Display search type
+	switch (chosenSearch)
+	{
+	case BFS:
+		m_spritebatch->DrawString(menuFont, "Breadth First Search", 10.f, (GetWindowHeight() - 20.f));
+		break;
+	case DFS:
+		m_spritebatch->DrawString(menuFont, "Depth First Search", 10.f, (GetWindowHeight() - 20.f));
+		break;
+	case DIJKSTRAS:
+		m_spritebatch->DrawString(menuFont, "Dijkstra's Search", 10.f, (GetWindowHeight() - 20.f));
+		break;
+	case ASTAR:
+		m_spritebatch->DrawString(menuFont, "A* Search", 10.f, (GetWindowHeight() - 20.f));
+		break;
+	default:
+		//Shouldn't get here
+		std::cout << "\n\nError: Reached default in Game1::Draw() Switch(chosenSearch) statement...\n\n";
+		break;
+	}
+
 	//Draw graph
 	graph->DisplayToScreen(m_spritebatch, displayIDs, displayCosts, displayDirections, menuFont);
 
@@ -465,7 +487,9 @@ void Game1::Search()
 	case ASTAR:
 		if (startNode && !potEndNodes.empty() && (potEndNodes.size() == 1))		//Ensure that the requisite values are in place
 		{
-			pathfinder->AStar(startNode, potEndNodes.front(), outPath);
+			//pathfinder->AStarTutorial(startNode, potEndNodes.front(), outPath);
+			//pathfinder->AStarLecture(startNode, potEndNodes.front(), outPath);
+			pathfinder->AStarWiki(startNode, potEndNodes.front(), outPath);
 		}
 		break;
 	default:

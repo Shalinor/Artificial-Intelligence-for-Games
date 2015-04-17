@@ -25,9 +25,15 @@ public:
 	void	BFS_DFS(	Node*	startNode_,
 						bool	DFS_);
 
-	void	AStar(		Node*	start_,
+	/*void	AStar(		Node*	start_,
 						Node*	end_,
-						std::list<Node*> &outPath_);
+						std::list<Node*> &outPath_);*/
+
+	void	AStarTutorial(Node*	start_, Node*	end_, std::list<Node*> &outPath_);
+
+	void	AStarLecture(Node*	start_, Node*	end_, std::list<Node*> &outPath_);
+
+	void	AStarWiki(Node*	start_, Node*	end_, std::list<Node*> &outPath_);
 
 	//Don't use these - incorporated into the BFS_DFS above
 //	void	BreadthFirstSearch(Node* startNode_);
@@ -44,6 +50,7 @@ private:
 		int			degreesOfSeperation;	//BFS & DFS - Don't think it actually does anything
 		float		gScore;					//Dijkstra's
 		float		hScore;					//A* - Huristic
+		float		hMultiplier;			//A* - Multiplier to be applied to the hScore
 		float		fScore;					//A* - Final Score (gScore + hScore)
 
 		PathNode()
@@ -53,6 +60,7 @@ private:
 			degreesOfSeperation = 0;
 			gScore = std::numeric_limits<float>::infinity();
 			hScore = 0.f;
+			hMultiplier = 1.f;
 			fScore = 0.f;
 		}
 	};

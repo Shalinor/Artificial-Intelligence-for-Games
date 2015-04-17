@@ -60,7 +60,7 @@ public:
 
 	private:
 		//Any relevant data...	If data is used, need to add Getter functions...
-		float	cost;
+		int/*float*/	cost;
 		char*	displayableCost;
 	};
 	

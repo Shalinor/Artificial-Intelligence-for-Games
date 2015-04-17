@@ -17,7 +17,8 @@ Node::Node(vec3 position_, Texture* untraversed_, Texture* traversed_)
 	
 	//Make a char* version of the id for potential display to screen
 	displayableID = new char;
-	_itoa_s(id, displayableID, sizeof(id), 10);
+//	_itoa_s(id, displayableID, sizeof(id), 10);
+	itoa(id, displayableID, 10);
 
 	position = position_;
 

@@ -316,7 +316,8 @@ void Pathfinder::swapHighestDOSToFront()		//Stolen/adapted from Jez :/
 
 float	Pathfinder::Get2DDistance(vec3 pointA_, vec3 pointB_)
 {
-	//return pointA_.x - pointB_.x + pointA_.y - pointB_.y;	//Manhattan Distance
+	//return pointA_.x - pointB_.x + pointA_.y - pointB_.y;	//Manhattan Distance?
+	//return (abs(pointA_.x - pointB_.x) + abs(pointA_.y - pointB_.y));	//Manhattan Distance? <Jason's, but not the same search pattern>
 
 	//return 0;	//Makes it into Dijkstra's
 

@@ -500,12 +500,14 @@ void Game1::Search()
 	case DIJKSTRAS:
 		if (startNode && !potEndNodes.empty())		//Ensure that the requisite values are in place
 		{
+//			while (outPath.empty())
 			pathfinder->Dijkstras(startNode, potEndNodes, outPath);
 		}
 		break;
 	case ASTAR:
 		if (startNode && !potEndNodes.empty() && (potEndNodes.size() == 1))		//Ensure that the requisite values are in place
 		{
+//			while (outPath.empty())
 			//pathfinder->AStarTutorial(startNode, potEndNodes.front(), outPath);
 			//pathfinder->AStarLecture(startNode, potEndNodes.front(), outPath);
 			pathfinder->AStarWiki(startNode, potEndNodes.front(), outPath);

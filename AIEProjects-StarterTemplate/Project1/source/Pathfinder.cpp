@@ -25,6 +25,7 @@ void Pathfinder::Dijkstras(Node* start_, const std::list<Node*> &potentialEnd_, 
 
 	PathNode* endNode = NULL;									/*Let endNode be a Node set to NULL*/
 	PathNode* currentNode = NULL;
+	PathNode* openListVersion = NULL;
 
 	//If first instance of search, set it up
 	if (!currentlySearching)
@@ -103,24 +104,53 @@ void Pathfinder::Dijkstras(Node* start_, const std::list<Node*> &potentialEnd_, 
 			}
 
 			//Test for presence within openList					/*NOT in tutorial, but is in lecture note AND Sam said to do it <email 07-04-15>*/
-			for (auto oLIterator = openList.begin(); oLIterator != openList.end(); ++oLIterator)
+			if (!inClosedList)
 			{
-				if (((*iterator)->end) == ((*oLIterator)->node))
+				for (auto oLIterator = openList.begin(); oLIterator != openList.end(); ++oLIterator)
 				{
-					inOpenList = true;
-					break;
+					if (((*iterator)->end) == ((*oLIterator)->node))
+					{
+						openListVersion = (*oLIterator);
+						inOpenList = true;
+						break;
+					}
 				}
 			}
 
-			if (!inClosedList && !inOpenList)
+			if (!inClosedList && (*iterator)->end->GetTraversable())
 			{
-				PathNode* temp = new PathNode();
-				temp->node = (*iterator)->end;
-				temp->node->SetTraversed();		//For display purposes only
-				/*c.connection.gScore = currentNode.gScore + c.cost*/
-				temp->gScore = currentNode->gScore + (*iterator)->GetCost();
-				temp->parent = currentNode;						/*c.connection.parent = currentNode*/
-				openList.push_back(temp);						/*Add c.connection to openList if not in closedList*/
+				(*iterator)->end->SetTraversed();
+
+				if (inOpenList)
+				{
+					float tempGScore = currentNode->gScore + (*iterator)->GetCost();
+
+					//					std::cout << "Current gScore: " << openListVersion->gScore << " vs new: " << tempGScore;
+
+					if (tempGScore < openListVersion->gScore)
+					{
+						//						std::cout << "\n\tUpdating details G: " << openListVersion->gScore << " H: " << openListVersion->hScore << " F: " << openListVersion->fScore << std::endl;
+
+						openListVersion->parent = currentNode;
+						openListVersion->gScore = tempGScore;
+
+						//						std::cout << "\tNew details G: " << openListVersion->gScore << " H: " << openListVersion->hScore << " F: " << openListVersion->fScore;
+					}
+				}
+				else
+				{
+					PathNode* temp = new PathNode();
+					temp->parent = currentNode;
+					temp->node = (*iterator)->end;
+					temp->gScore = currentNode->gScore + (*iterator)->GetCost();
+
+					openList.push_back(temp);
+
+					//					std::cout << "Adding Node: ID-" << temp->node->displayableID << " G-" << temp->gScore << " H-" << temp->hScore << " F-" << temp->fScore;
+
+					temp = NULL;
+					delete temp;
+				}
 			}
 		}
 	}
@@ -221,7 +251,7 @@ void Pathfinder::BFS_DFS(Node* startNode_, bool DFS_)
 			}
 		}
 
-		if (!inClosedList && !inOpenList)
+		if (!inClosedList && !inOpenList && (*iterator)->end->GetTraversable())
 		{
 			PathNode* temp = new PathNode();
 			temp->node = (*iterator)->end;
@@ -284,6 +314,21 @@ void Pathfinder::swapHighestDOSToFront()		//Stolen/adapted from Jez :/
 	}
 }
 
+float	Pathfinder::Get2DDistance(vec3 pointA_, vec3 pointB_)
+{
+	//return pointA_.x - pointB_.x + pointA_.y - pointB_.y;	//Manhattan Distance
+
+	//return 0;	//Makes it into Dijkstra's
+
+	//return (pointA_ - pointB_).length() * 1.f;
+	
+	vec3 distVector_ = pointA_ - pointB_;
+	return sqrtf((distVector_.x * distVector_.x) + (distVector_.y * distVector_.y)) * 0.14f;
+	//0.25f is nice - 45x45 off by 1 with random costs
+	//with uniform costs, 0.1f makes a rounded search
+	//with uniform costs, 0.125f makes a squared-to arrow search - faster than Dijkstra's, but still slow...
+	//with uniform costs, 0.14f is nice - a rounded yet fairly direct path
+}
 
 //Tutorial pseudo code
 void Pathfinder::AStarTutorial(Node* start_, Node* end_, std::list<Node*> &outPath_)
@@ -313,7 +358,7 @@ void Pathfinder::AStarTutorial(Node* start_, Node* end_, std::list<Node*> &outPa
 
 		pathStart->node = start_;									/*Add startNode to openList*/
 		pathStart->gScore = 0.f;
-		pathStart->hScore = Get2DDistance(start_->GetPosition() - end_->GetPosition());
+		pathStart->hScore = Get2DDistance(start_->GetPosition(), end_->GetPosition());
 		pathStart->fScore = pathStart->hScore;
 
 		openList.push_back(pathStart);
@@ -391,13 +436,16 @@ void Pathfinder::AStarTutorial(Node* start_, Node* end_, std::list<Node*> &outPa
 			}
 
 			//Test for presence within openList					/*NOT in tutorial, but is in lecture note AND Sam said to do it <email 07-04-15>*/
-			for (auto oLIterator = openList.begin(); oLIterator != openList.end(); ++oLIterator)
+			if (!inClosedList)
 			{
-				if (((*iterator)->end) == ((*oLIterator)->node))
+				for (auto oLIterator = openList.begin(); oLIterator != openList.end(); ++oLIterator)
 				{
-					inOpenList = true;
-					openListVersion = (*oLIterator);
-					break;
+					if (((*iterator)->end) == ((*oLIterator)->node))
+					{
+						inOpenList = true;
+						openListVersion = (*oLIterator);
+						break;
+					}
 				}
 			}
 
@@ -417,7 +465,7 @@ void Pathfinder::AStarTutorial(Node* start_, Node* end_, std::list<Node*> &outPa
 				Add n to openList if not in closedList
 			*/
 
-			if (!inClosedList)
+			if (!inClosedList && (*iterator)->end->GetTraversable())
 			{
 				if (inOpenList)
 				{
@@ -485,8 +533,6 @@ void Pathfinder::AStarTutorial(Node* start_, Node* end_, std::list<Node*> &outPa
 	}
 }
 
-
-
 //Lecture pseudo code
 void Pathfinder::AStarLecture(Node* start_, Node* end_, std::list<Node*> &outPath_)
 {
@@ -512,7 +558,7 @@ void Pathfinder::AStarLecture(Node* start_, Node* end_, std::list<Node*> &outPat
 
 		pathStart->node = start_;									/*Add startNode to openList*/
 		pathStart->gScore = 0.f;
-		pathStart->hScore = Get2DDistance(start_->GetPosition() - end_->GetPosition());
+		pathStart->hScore = Get2DDistance(start_->GetPosition(), end_->GetPosition());
 		pathStart->fScore = pathStart->hScore;
 
 		openList.push_back(pathStart);
@@ -558,13 +604,16 @@ void Pathfinder::AStarLecture(Node* start_, Node* end_, std::list<Node*> &outPat
 				}
 			}
 
-			for (auto oLIterator = openList.begin(); oLIterator != openList.end(); ++oLIterator)
+			if (!inClosedList)
 			{
-				if ((*iterator)->end == (*oLIterator)->node)
+				for (auto oLIterator = openList.begin(); oLIterator != openList.end(); ++oLIterator)
 				{
-					inOpenList = true;
-					openListVersion = (*oLIterator);	//To be used to test if new connection is better than previous
-					break;								//Break out of openList loop
+					if ((*iterator)->end == (*oLIterator)->node)
+					{
+						inOpenList = true;
+						openListVersion = (*oLIterator);	//To be used to test if new connection is better than previous
+						break;								//Break out of openList loop
+					}
 				}
 			}
 
@@ -584,7 +633,7 @@ void Pathfinder::AStarLecture(Node* start_, Node* end_, std::list<Node*> &outPat
 			*/
 
 
-			if (!inClosedList)
+			if (!inClosedList && (*iterator)->end->GetTraversable())
 			{
 				if (inOpenList)
 				{
@@ -593,7 +642,7 @@ void Pathfinder::AStarLecture(Node* start_, Node* end_, std::list<Node*> &outPat
 					vec3 distVector = nPos - endPos;
 
 					float currentNodesGScore = currentNode->gScore + (*iterator)->GetCost();
-					float currentNodesHScore = Get2DDistance(openListVersion->node->GetPosition() - end_->GetPosition());
+					float currentNodesHScore = Get2DDistance(openListVersion->node->GetPosition(), end_->GetPosition());
 					float currentNodesFScore = currentNodesGScore + currentNodesHScore;
 
 					if (currentNodesFScore < openListVersion->fScore)
@@ -610,7 +659,7 @@ void Pathfinder::AStarLecture(Node* start_, Node* end_, std::list<Node*> &outPat
 					temp->node = (*iterator)->end;
 					temp->parent = currentNode;
 					temp->gScore = currentNode->gScore + (*iterator)->GetCost();
-					temp->hScore = Get2DDistance(temp->node->GetPosition() - end_->GetPosition());
+					temp->hScore = Get2DDistance(temp->node->GetPosition(), end_->GetPosition());
 					temp->fScore = temp->gScore + temp->hScore;
 					temp->node->SetTraversed();						//Mark as traversed
 
@@ -657,47 +706,6 @@ void Pathfinder::AStarLecture(Node* start_, Node* end_, std::list<Node*> &outPat
 	}
 }
 
-
-/*
-	function A*(start, goal)
-		closedset : = the empty set    // The set of nodes already evaluated.
-		openset : = { start }    // The set of tentative nodes to be evaluated, initially containing the start node
-		came_from: = the empty map    // The map of navigated nodes.
-
-		g_score[start] : = 0    // Cost from start along best known path.
-		// Estimated total cost from start to goal through y.
-		f_score[start] : = g_score[start] + heuristic_cost_estimate(start, goal)
-
-		while openset is not empty
-			current : = the node in openset having the lowest f_score[] value
-			if current = goal
-				return reconstruct_path(came_from, goal)
-
-			remove current from openset
-			add current to closedset
-			for each neighbor in neighbor_nodes(current)
-				if neighbor in closedset
-					continue
-				tentative_g_score : = g_score[current] + dist_between(current, neighbor)
-
-				if neighbor not in openset or tentative_g_score < g_score[neighbor]
-					came_from[neighbor] : = current
-					g_score[neighbor] : = tentative_g_score
-					f_score[neighbor] : = g_score[neighbor] + heuristic_cost_estimate(neighbor, goal)
-					if neighbor not in openset
-						add neighbor to openset
-
-		return failure
-
-	
-	function reconstruct_path(came_from, current)
-		total_path : = [current]
-		while current in came_from :
-			current : = came_from[current]
-			total_path.append(current)
-		return total_path
-*/
-
 //Wiki pseudo code
 void Pathfinder::AStarWiki(Node* start_, Node* end_, std::list<Node*> &outPath_)
 {
@@ -719,7 +727,7 @@ void Pathfinder::AStarWiki(Node* start_, Node* end_, std::list<Node*> &outPath_)
 
 		pathStart->node = start_;
 		pathStart->gScore = 0.f;
-		pathStart->hScore = Get2DDistance(start_->GetPosition() - end_->GetPosition()) * pathStart->hMultiplier;
+		pathStart->hScore = Get2DDistance(start_->GetPosition(), end_->GetPosition()) * pathStart->hMultiplier;
 		pathStart->fScore = pathStart->hScore;
 
 //		std::cout << "Added pathStart -> G: " << pathStart->gScore << " H: " << pathStart->hScore << " F: " << pathStart->fScore << std::endl;
@@ -766,18 +774,21 @@ void Pathfinder::AStarWiki(Node* start_, Node* end_, std::list<Node*> &outPath_)
 				}
 			}
 
-			for (auto oLIterator = openList.begin(); oLIterator != openList.end(); ++oLIterator)
+			if (!inClosedList)
 			{
-				if ((*iterator)->end == (*oLIterator)->node)
+				for (auto oLIterator = openList.begin(); oLIterator != openList.end(); ++oLIterator)
 				{
-//					std::cout << " is in openList";
-					inOpenList = true;
-					openListVersion = (*oLIterator);
-					break;
+					if ((*iterator)->end == (*oLIterator)->node)
+					{
+						//					std::cout << " is in openList";
+						inOpenList = true;
+						openListVersion = (*oLIterator);
+						break;
+					}
 				}
 			}
 
-			if (!inClosedList)
+			if (!inClosedList && (*iterator)->end->GetTraversable())
 			{
 				(*iterator)->end->SetTraversed();
 
@@ -805,7 +816,7 @@ void Pathfinder::AStarWiki(Node* start_, Node* end_, std::list<Node*> &outPath_)
 					temp->parent = currentNode;
 					temp->node = (*iterator)->end;
 					temp->gScore = currentNode->gScore + (*iterator)->GetCost();
-					temp->hScore = Get2DDistance(temp->node->GetPosition() - end_->GetPosition()) * temp->hMultiplier;
+					temp->hScore = Get2DDistance(temp->node->GetPosition(), end_->GetPosition()) * temp->hMultiplier;
 					temp->fScore = temp->gScore + temp->hScore;
 
 					openList.push_back(temp);

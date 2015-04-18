@@ -275,13 +275,13 @@ void	Graph::Update()
 	}
 }
 
-void	Graph::Update(Texture* t1_, Texture* t2_, bool randomCosts_, float cost_)
+void	Graph::Update(Texture* t1_, Texture* t2_, Texture* t3_, bool randomCosts_, float cost_)
 {
 	////TEST IF A NODE IS WITHIN DETECTION RADIUS OF THE CLICK (10px??) AND DO NOT ADD IF THERE IS - OR REMOVE IF RMB
 
 	if (input->IsMouseButtonDown(0) && mouseLeftReleased)
 	{
-		Node* temp = new Node(vec3(input->GetMouseX(), input->GetMouseY(), 0), t1_, t2_);
+		Node* temp = new Node(vec3(input->GetMouseX(), input->GetMouseY(), 0), t1_, t2_, t3_);
 
 		mouseLeftReleased = false;
 		AddNode(temp);

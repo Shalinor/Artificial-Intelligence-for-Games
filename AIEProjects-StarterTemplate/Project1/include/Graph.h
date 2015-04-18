@@ -44,7 +44,7 @@ public:
 	void	DisplayToScreen(SpriteBatch* spriteBatch_, bool displayIDs_, bool displayCosts_, bool displayDirections_, Font* font_);
 
 	void	Update();
-	void	Update(Texture* t1_, Texture* t2_, bool randomCosts_, float cost_ = -1.0f);
+	void	Update(Texture* t1_, Texture* t2_, Texture* t3_, bool randomCosts_, float cost_ = -1.0f);
 
 //	void	TraverseDFS();
 //	void	TraverseBFS();

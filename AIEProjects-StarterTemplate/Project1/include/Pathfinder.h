@@ -72,7 +72,7 @@ private:
 
 	bool					currentlySearching;
 
-	float	Get2DDistance(vec3 distVector_){ return sqrtf((distVector_.x * distVector_.x) + (distVector_.y * distVector_.y)); }
+	float	Get2DDistance(vec3 pointA_, vec3 pointB_);// { return sqrtf((distVector_.x * distVector_.x) + (distVector_.y * distVector_.y)); }
 
 	/* I want to combine these with an enum indicating what swap we want*/
 	void	swapLowestFScoreToFront();

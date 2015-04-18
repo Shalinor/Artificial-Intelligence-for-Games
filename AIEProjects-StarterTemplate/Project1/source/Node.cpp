@@ -7,9 +7,10 @@ Node::Node(vec3 position_)
 {
 	position = position_;
 	traversed = false;
+	traversable = true;
 }
 
-Node::Node(vec3 position_, Texture* untraversed_, Texture* traversed_)
+Node::Node(vec3 position_, Texture* untraversed_, Texture* traversed_, Texture* nonTraversable_)
 {
 	//Really bad, but just for testing the traversals against slides...
 	static int id_ = -1;
@@ -24,8 +25,10 @@ Node::Node(vec3 position_, Texture* untraversed_, Texture* traversed_)
 
 	untraversedTexture = untraversed_;
 	traversedTexture = traversed_;
+	nonTraversableTexture = nonTraversable_;
 
 	traversed = false;
+	traversable = true;
 }
 
 Node::~Node()
@@ -168,9 +171,13 @@ void	Node::DisplayNodeToScreen(SpriteBatch* spriteBatch_)
 	{
 		spriteBatch_->DrawSprite(traversedTexture, position.x, position.y, 10.f, 10.f);
 	}
-	else	//untraversed
+	else if(traversable)	//untraversed
 	{
 		spriteBatch_->DrawSprite(untraversedTexture, position.x, position.y, 10.f, 10.f);
+	}
+	else	//non traversable
+	{
+		spriteBatch_->DrawSprite(nonTraversableTexture, position.x, position.y, 10.f, 10.f);
 	}
 }
 
@@ -181,14 +188,15 @@ void	Node::DisplayNodeToScreen(SpriteBatch* spriteBatch_, bool displayIDs_, Font
 		spriteBatch_->DrawString(font_, displayableID, position.x - (5 + (5.f * (float)(strlen(displayableID)))), position.y - 11.f);
 	}
 
-	if (traversed)
-	{
-		spriteBatch_->DrawSprite(traversedTexture, position.x, position.y, 10.f, 10.f);
-	}
-	else	//untraversed
-	{
-		spriteBatch_->DrawSprite(untraversedTexture, position.x, position.y, 10.f, 10.f);
-	}
+	DisplayNodeToScreen(spriteBatch_);
+	//if (traversed)
+	//{
+	//	spriteBatch_->DrawSprite(traversedTexture, position.x, position.y, 10.f, 10.f);
+	//}
+	//else	//untraversed
+	//{
+	//	spriteBatch_->DrawSprite(untraversedTexture, position.x, position.y, 10.f, 10.f);
+	//}
 }
 
 void	Node::DisplayIDToConsole()

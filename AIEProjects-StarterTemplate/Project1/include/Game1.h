@@ -53,6 +53,7 @@ protected:
 	Texture*	        endTexture;
 	Texture*            traversedTexture;
 	Texture*			pathTexture;
+	Texture*			nonTraversableTexture;
 
 	Graph*		        graph;
 	vec3		        mousePosition;
@@ -77,6 +78,7 @@ protected:
 	bool				iReleased;
 	bool				cReleased;
 	bool				dReleased;
+	bool				tReleased;
 	bool				oneReleased;
 	bool				twoReleased;
 	bool				threeReleased;

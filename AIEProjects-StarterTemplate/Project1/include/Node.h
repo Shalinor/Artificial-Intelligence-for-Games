@@ -19,7 +19,7 @@ class Node
 {
 public:
 			Node(vec3 position_);
-			Node(vec3 position_, Texture* untraversed_, Texture* traversed_);
+			Node(vec3 position_, Texture* untraversed_, Texture* traversed_, Texture* nonTraversable_);
 			~Node();
 
 	vec3	GetPosition(){ return position; }
@@ -35,6 +35,9 @@ public:
 	void	DisplayNodeToScreen(SpriteBatch* spriteBatch_, bool displayIDs_, Font* font_);
 
 	void	DisplayIDToConsole();
+
+	void	SetTraversable(bool traversable_){ traversable = traversable_; }
+	bool	GetTraversable(){ return traversable; }
 
 	void	SetTraversed(){ traversed = true; }
 	bool	GetTraversed(){ return traversed; }
@@ -66,9 +69,11 @@ public:
 	
 	int					id;
 	char*				displayableID;
+	bool				traversable;
 	bool				traversed;
 	Texture*			traversedTexture;
 	Texture*			untraversedTexture;
+	Texture*			nonTraversableTexture;
 
 	vec3				position;
 	std::vector<Edge*>	edges;

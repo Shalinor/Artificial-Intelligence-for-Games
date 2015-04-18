@@ -19,58 +19,60 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	LoadMenu();			//Loads menuText from text file
 	//menuFont = new Font("./Fonts/calibri_24px.fnt");
 	//menuFont = new Font("./Fonts/arial_20px.fnt");
-	menuFont			= new Font("./Fonts/CourierNew_11px.fnt");
-	menuPos				= vec2(0.f, 0.f);
+	menuFont				= new Font("./Fonts/CourierNew_11px.fnt");
+	menuPos					= vec2(0.f, 0.f);
 
 
-	defaultTexture		= new Texture("./Images/circle_blue.png");
-	startTexture		= new Texture("./Images/circle_red.png");
-	endTexture			= new Texture("./Images/circle_orange.png");
-	traversedTexture	= new Texture("./Images/circle_yellow.png");
-	pathTexture			= new Texture("./Images/circle_green.png");
+	defaultTexture			= new Texture("./Images/circle_blue.png");
+	startTexture			= new Texture("./Images/circle_red.png");
+	endTexture				= new Texture("./Images/circle_orange.png");
+	traversedTexture		= new Texture("./Images/circle_yellow.png");
+	pathTexture				= new Texture("./Images/circle_green.png");
+	nonTraversableTexture	= new Texture("./Images/circle_grey.png");
 
-	graph				= new Graph(false, 5.f);	//true == directed == oneway only ... detection radius == half image dimension being used
-	pathfinder			= new Pathfinder();
+	graph					= new Graph(false, 5.f);	//true == directed == oneway only ... detection radius == half image dimension being used
+	pathfinder				= new Pathfinder();
 
-	startNode			= NULL;
+	startNode				= NULL;
 	potEndNodes.clear();
 
-	randomCosts			= false;
-	diagonals           = false;
+	randomCosts				= true;
+	diagonals			    = false;
 
-	chosenSearch		= DIJKSTRAS;
-	newSearch			= false;
-	continueSearch		= false;
-	spaceReleased		= true;
-	rReleased			= true;
-	pReleased			= true;
-	sReleased			= true;
-	eReleased			= true;
-	iReleased			= true;
-	cReleased			= true;
-	dReleased			= true;
-	oneReleased			= true;
-	twoReleased			= true;
-	threeReleased		= true;
-	fourReleased		= true;
+	chosenSearch			= DIJKSTRAS;
+	newSearch				= false;
+	continueSearch			= false;
+	spaceReleased			= true;
+	rReleased				= true;
+	pReleased				= true;
+	sReleased				= true;
+	eReleased				= true;
+	iReleased				= true;
+	cReleased				= true;
+	dReleased				= true;
+	tReleased				= true;
+	oneReleased				= true;
+	twoReleased				= true;
+	threeReleased			= true;
+	fourReleased			= true;
 
-	mouseLeftReleased	= true;
-	//mouseRightReleased	= true;
+	mouseLeftReleased		= true;
+	//mouseRightReleased		= true;
 
-	displayIDs			= false;
-	displayCosts		= false;
-	displayDirections	= false;
+	displayIDs				= false;
+	displayCosts			= false;
+	displayDirections		= false;
 
 	//Now to create a grid of nodes...
 
 	gridSize = 46;//11;
-	gridSpacing = 10.f;//45f;
+	gridSpacing = 10.f;//45.f;
 
 	for (int y = 1; y < gridSize; ++y)
 	{
 		for (int x = 1; x < gridSize; ++x)
 		{
-			graph->AddNode(new Node(vec3(float(windowWidth - (x * gridSpacing)), float(windowHeight - (y * gridSpacing)), 0.f), defaultTexture, traversedTexture));
+			graph->AddNode(new Node(vec3(float(windowWidth - (x * gridSpacing)), float(windowHeight - (y * gridSpacing)), 0.f), defaultTexture, traversedTexture, nonTraversableTexture));
 		}
 	}
 
@@ -131,7 +133,7 @@ Game1::~Game1()
 
 void Game1::Update(float deltaTime)
 {
-	if (!sReleased || !eReleased)								//If either setting Start or End node
+	if (!sReleased || !eReleased || !tReleased)						//If either setting Start or End node or Traversability
 	{
 		if (input->IsMouseButtonDown(0) && mouseLeftReleased)
 		{
@@ -143,7 +145,7 @@ void Game1::Update(float deltaTime)
 
 			if (temp != NULL)										//Test if a node was found
 			{
-				if (!sReleased && eReleased)						//Setting Start node
+				if (!sReleased && eReleased && tReleased)			//Setting Start node
 				{
 					if (startNode == temp)							//If selecting existing Start node, clear it
 					{
@@ -154,7 +156,7 @@ void Game1::Update(float deltaTime)
 						startNode = temp;
 					}
 				}
-				else if (sReleased && !eReleased)					//Setting End node
+				else if (sReleased && !eReleased && tReleased)		//Setting End node
 				{
 					bool alreadyInPotEndList = false;
 
@@ -173,7 +175,14 @@ void Game1::Update(float deltaTime)
 						potEndNodes.push_back(temp);
 					}
 				}
+				else if (sReleased && eReleased && !tReleased)		//Setting node Traversability
+				{
+					temp->SetTraversable(!temp->GetTraversable());
+				}
 			}
+
+			temp = NULL;
+			delete temp;
 		}
 		/*else if (input->IsMouseButtonDown(1) && mouseRightReleased)
 		{
@@ -184,7 +193,7 @@ void Game1::Update(float deltaTime)
 	}
 	else/* if (sReleased && eReleased)*/						//Not setting Start or End node
 	{
-		graph->Update(defaultTexture, traversedTexture, randomCosts, 1.0f);	//Only use graph's LMB/RMB input if setting Start/End nodes...
+		graph->Update(defaultTexture, traversedTexture, nonTraversableTexture, randomCosts, 1.0f);	//Only use graph's LMB/RMB input if setting Start/End nodes...
 		//	NEED TO PUT SOMETHING IN TO COVER REMOVING A START/END NODE AS THEY ARE STORED EXTERNALLY TO GRAPH...
 		//		MAYBE WHEN I REMOVE IT, SET IT TO NULL??
 	}
@@ -258,6 +267,16 @@ void Game1::Update(float deltaTime)
 	else if (input->IsKeyUp(GLFW_KEY_D))
 	{
 		dReleased = true;
+	}
+
+	if (input->IsKeyDown(GLFW_KEY_T) && tReleased)
+	{
+		//Set node Traversability
+		tReleased = false;
+	}
+	else if (input->IsKeyUp(GLFW_KEY_T))
+	{
+		tReleased = true;
 	}
 
 	///Choosing Search Option - BFS, DFS, DIJKSTRAS
@@ -405,16 +424,16 @@ void Game1::Draw()
 	switch (chosenSearch)
 	{
 	case BFS:
-		m_spritebatch->DrawString(menuFont, "Breadth First Search", 10.f, (GetWindowHeight() - 20.f));
+		m_spritebatch->DrawString(menuFont, "Search Type: Breadth First", 10.f, (GetWindowHeight() - 20.f));
 		break;
 	case DFS:
-		m_spritebatch->DrawString(menuFont, "Depth First Search", 10.f, (GetWindowHeight() - 20.f));
+		m_spritebatch->DrawString(menuFont, "Search Type: Depth First", 10.f, (GetWindowHeight() - 20.f));
 		break;
 	case DIJKSTRAS:
-		m_spritebatch->DrawString(menuFont, "Dijkstra's Search", 10.f, (GetWindowHeight() - 20.f));
+		m_spritebatch->DrawString(menuFont, "Search Type: Dijkstra's", 10.f, (GetWindowHeight() - 20.f));
 		break;
 	case ASTAR:
-		m_spritebatch->DrawString(menuFont, "A* Search", 10.f, (GetWindowHeight() - 20.f));
+		m_spritebatch->DrawString(menuFont, "Search Type: A*", 10.f, (GetWindowHeight() - 20.f));
 		break;
 	default:
 		//Shouldn't get here

@@ -87,16 +87,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="source\Agent.cpp" />
     <ClCompile Include="source\Game1.cpp" />
-    <ClCompile Include="source\Graph.cpp" />
-    <ClCompile Include="source\Node.cpp" />
-    <ClCompile Include="source\Pathfinder.cpp" />
+    <ClCompile Include="source\IBehaviour.cpp" />
+    <ClCompile Include="source\KeyboardController.cpp" />
+    <ClCompile Include="source\Seek.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Agent.h" />
     <ClInclude Include="include\Game1.h" />
-    <ClInclude Include="include\Graph.h" />
-    <ClInclude Include="include\Node.h" />
-    <ClInclude Include="include\Pathfinder.h" />
+    <ClInclude Include="include\IBehaviour.h" />
+    <ClInclude Include="include\KeyboardController.h" />
+    <ClInclude Include="include\Seek.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

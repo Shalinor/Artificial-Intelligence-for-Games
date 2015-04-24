@@ -21,13 +21,16 @@
     <ClCompile Include="source\Game1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Graph.cpp">
+    <ClCompile Include="source\Agent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Node.cpp">
+    <ClCompile Include="source\IBehaviour.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Pathfinder.cpp">
+    <ClCompile Include="source\Seek.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\KeyboardController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,13 +38,16 @@
     <ClInclude Include="include\Game1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Graph.h">
+    <ClInclude Include="include\Agent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Node.h">
+    <ClInclude Include="include\IBehaviour.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Pathfinder.h">
+    <ClInclude Include="include\Seek.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\KeyboardController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

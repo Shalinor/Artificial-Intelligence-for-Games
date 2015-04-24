@@ -1,9 +1,28 @@
-﻿Build started 18/04/2015 3:00:06 PM.
-     1>Project "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\AIE_GL\AIE_GL.vcxproj" on node 2 (Build target(s)).
-     1>Lib:
-         AIE_GL.vcxproj -> D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\AIE_GL\bin\AIE_GL_d.lib
-     1>Done Building Project "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\AIE_GL\AIE_GL.vcxproj" (Build target(s)).
+﻿Build started 21/04/2015 9:47:58 AM.
+     1>Project "C:\Users\George\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\AIE_GL\AIE_GL.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\George\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\AIE_GL\include\\" /I"C:\Users\George\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\libraries\glew\include\\" /I"C:\Users\George\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\libraries\glfw3\include\GLFW\\" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\George\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\\" /Fd"C:\Users\George\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt source\Input.cpp source\RenderTexture.cpp source\SpriteBatch.cpp source\SpriteBatch_GL3.cpp source\Texture.cpp source\lodepng.cpp
+         Skipping... (no relevant changes detected)
+         lodepng.cpp
+         Texture.cpp
+         SpriteBatch_GL3.cpp
+         SpriteBatch.cpp
+         RenderTexture.cpp
+         Input.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"C:\Users\George\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\AIE_GL\bin\AIE_GL_d.lib" OpenGL32.lib glew32.lib glfw3.lib /LIBPATH:"C:\Users\George\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\libraries\glew\lib\Release\Win32\\" /LIBPATH:"C:\Users\George\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\libraries\glfw3\lib-vc2013\\" /NOLOGO "C:\Users\George\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\Application.obj"
+         "C:\Users\George\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\Font.obj"
+         "C:\Users\George\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\Input.obj"
+         "C:\Users\George\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\lodepng.obj"
+         "C:\Users\George\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\RenderTexture.obj"
+         "C:\Users\George\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\SpriteBatch.obj"
+         "C:\Users\George\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\SpriteBatch_GL3.obj"
+         "C:\Users\George\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\AIE_GL_dDebug\Texture.obj"
+     1>glew32.lib(glew32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in OpenGL32.lib(OPENGL32.dll); second definition ignored
+     1>glew32.lib(glew32.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+         AIE_GL.vcxproj -> C:\Users\George\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\AIE_GL\bin\AIE_GL_d.lib
+     1>Done Building Project "C:\Users\George\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\AIE_GL\AIE_GL.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.12
+Time Elapsed 00:00:00.55

@@ -8,9 +8,10 @@ Description:
 #pragma once
 
 #include <list>
+#include <memory>
 
 #include "Application.h"
-#include <memory>
+#include "Agent.h"
 
 class SpriteBatch;
 class Texture;		//<- I don't like this method, I know it avoids polluting namespace, but meh...
@@ -32,7 +33,7 @@ public:
 	virtual ~Game1();
 
 	// update / draw called each frame automaticly
-	virtual void Update(float deltaTime);
+	virtual void Update(float deltaTime_);
 	virtual void Draw();
 
 protected:
@@ -42,7 +43,10 @@ protected:
 	Input				*input;
 
 	//Texture*	        t;
-	Texture*			defaultTexture;
+	//Texture*			defaultTexture;
+	shared_ptr<Texture>	defaultTexture;
+
+	shared_ptr<Agent>	agent;
 	
 	//Menu
 	Font*				menuFont;

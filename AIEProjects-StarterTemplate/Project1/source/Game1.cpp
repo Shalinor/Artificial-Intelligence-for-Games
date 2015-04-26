@@ -22,7 +22,10 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	menuPos					= vec2(0.f, 0.f);
 
 
-	defaultTexture			= new Texture("./Images/circle_blue.png");
+	//defaultTexture			= new Texture("./Images/circle_blue.png");
+	defaultTexture = make_shared<Texture>("./Images/Arrow.png");
+
+	agent = make_shared<Agent>(defaultTexture);
 }
 
 Game1::~Game1()
@@ -30,8 +33,7 @@ Game1::~Game1()
 	SpriteBatch::Factory::Destroy(m_spritebatch);
 }
 
-
-void Game1::Update(float deltaTime)
+void Game1::Update(float deltaTime_)
 {
 	if (input->IsKeyDown(GLFW_KEY_ESCAPE))
 	{
@@ -42,6 +44,8 @@ void Game1::Update(float deltaTime)
 	{
 		LoadMenu();
 	}
+
+	agent->Update(deltaTime_);
 }
 
 void Game1::Draw()
@@ -52,6 +56,7 @@ void Game1::Draw()
 	m_spritebatch->Begin();
 
 	// TODO: draw stuff.
+	agent->Draw(m_spritebatch);
 
 	//Draw menu
 	m_spritebatch->DrawString(menuFont, menuText, menuPos.x, menuPos.y);

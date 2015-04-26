@@ -1,6 +1,7 @@
 #pragma once
 #include "Input.h"
 
+#include "Agent.h"
 #include "IBehaviour.h"
 
 class KeyboardController :	public IBehaviour

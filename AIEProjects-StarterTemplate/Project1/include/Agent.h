@@ -1,5 +1,7 @@
 #pragma once
 
+#define GLM_FORCE_PURE
+
 #include "glfw3.h"
 
 #include <glm/glm.hpp>
@@ -27,9 +29,9 @@ public:
 	virtual void	Update(float deltaTime_);
 	virtual void	Draw(SpriteBatch* spriteBatch_);
 
-private:
-	void	AddForce(float force_);
+	void	AddForce(vec2 force_);
 
+private:
 	std::shared_ptr<Texture>			texture;
 
 	std::list<shared_ptr<IBehaviour>>	behaviours;
@@ -38,6 +40,7 @@ private:
 	vec2								velocity;
 	vec2								acceleration;
 	vec2								force;
+	vec2								heading;
 };
 
 /*

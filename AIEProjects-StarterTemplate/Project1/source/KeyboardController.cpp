@@ -36,7 +36,7 @@ void KeyboardController::Update(Agent* agent_, float deltaTime_)
 		rotation += 0.174532925f;	//10 Radians - magic number
 	}
 
-	glm::rotate
+	glm::rotate()
 
 	vec2	force = vec2((cosf(agent_->GetHeading()) * velocity), ());
 

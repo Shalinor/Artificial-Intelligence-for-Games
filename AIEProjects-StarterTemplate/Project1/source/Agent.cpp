@@ -52,3 +52,8 @@ void Agent::AddForce(vec2 force_)
 {
 	force = force_;
 }
+
+vec2 Agent::GetHeading()
+{
+	return heading;
+}

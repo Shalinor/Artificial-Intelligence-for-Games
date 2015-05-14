@@ -30,6 +30,7 @@ public:
 	virtual void	Draw(SpriteBatch* spriteBatch_);
 
 	void	AddForce(vec2 force_);
+	vec2	GetHeading();
 
 private:
 	std::shared_ptr<Texture>			texture;
@@ -40,7 +41,7 @@ private:
 	vec2								velocity;
 	vec2								acceleration;
 	vec2								force;
-	vec2								heading;
+	vec2								heading;		//***
 };
 
 /*

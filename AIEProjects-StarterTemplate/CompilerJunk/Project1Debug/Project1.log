@@ -1,18 +1,27 @@
-﻿Build started 26/04/2015 4:52:03 PM.
-     1>Project "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\Project1\Project1.vcxproj" on node 2 (Build target(s)).
+﻿Build started 5/11/2015 2:09:39 AM.
+     1>Project "C:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\Project1\Project1.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\AIE_GL\include\\" /I"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\libraries\glfw3\include\GLFW\\" /I"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\libraries\glew\include\\" /I"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\Project1\include\\" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\Project1Debug\\" /Fd"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\Project1Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt source\Agent.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\AIE_GL\include\\" /I"C:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\libraries\glfw3\include\GLFW\\" /I"C:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\libraries\glew\include\\" /I"C:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\Project1\include\\" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\Project1Debug\\" /Fd"C:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\Project1Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp source\Agent.cpp source\Game1.cpp source\IBehaviour.cpp source\KeyboardController.cpp source\Seek.cpp
+         Seek.cpp
+         KeyboardController.cpp
+     1>c:\github repositories\artificial-intelligence-for-games\aieprojects-startertemplate\project1\source\keyboardcontroller.cpp(41): error C2146: syntax error : missing ';' before identifier 'vec2'
+     1>c:\github repositories\artificial-intelligence-for-games\aieprojects-startertemplate\project1\source\keyboardcontroller.cpp(41): warning C4551: function call missing argument list
+     1>c:\github repositories\artificial-intelligence-for-games\aieprojects-startertemplate\project1\source\keyboardcontroller.cpp(41): error C2146: syntax error : missing ';' before identifier 'force'
+     1>c:\github repositories\artificial-intelligence-for-games\aieprojects-startertemplate\project1\source\keyboardcontroller.cpp(41): error C2275: 'glm::vec2' : illegal use of this type as an expression
+                 c:\github repositories\artificial-intelligence-for-games\aieprojects-startertemplate\aie_gl\include\glm\detail\type_vec.hpp(392) : see declaration of 'glm::vec2'
+     1>c:\github repositories\artificial-intelligence-for-games\aieprojects-startertemplate\project1\source\keyboardcontroller.cpp(41): error C2065: 'force' : undeclared identifier
+     1>c:\github repositories\artificial-intelligence-for-games\aieprojects-startertemplate\project1\source\keyboardcontroller.cpp(41): error C2039: 'GetHeading' : is not a member of 'Agent'
+                 c:\github repositories\artificial-intelligence-for-games\aieprojects-startertemplate\project1\include\agent.h(24) : see declaration of 'Agent'
+     1>c:\github repositories\artificial-intelligence-for-games\aieprojects-startertemplate\project1\source\keyboardcontroller.cpp(41): error C2059: syntax error : ')'
+         IBehaviour.cpp
+         Game1.cpp
+     1>c:\github repositories\artificial-intelligence-for-games\aieprojects-startertemplate\project1\source\game1.cpp(12): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>c:\github repositories\artificial-intelligence-for-games\aieprojects-startertemplate\project1\source\game1.cpp(75): warning C4244: 'initializing' : conversion from 'std::streamoff' to 'int', possible loss of data
          Agent.cpp
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\Compiled\Project1Debug\Project1.exe" /INCREMENTAL /NOLOGO /LIBPATH:"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\AIE_GL\bin\\" /LIBPATH:"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\libraries\glew\lib\Release\Win32\\" /LIBPATH:"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\libraries\glfw3\lib-vc2013\\" OpenGL32.lib AIE_GL_d.lib glew32.lib glfw3.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\Compiled\Project1Debug\Project1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\Compiled\Project1Debug\Project1.lib" /MACHINE:X86 "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\Project1Debug\main.obj"
-         "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\Project1Debug\Agent.obj"
-         "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\Project1Debug\Game1.obj"
-         "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\Project1Debug\IBehaviour.obj"
-         "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\Project1Debug\KeyboardController.obj"
-         "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\CompilerJunk\Project1Debug\Seek.obj"
-         Project1.vcxproj -> D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\Compiled\Project1Debug\Project1.exe
-     1>Done Building Project "D:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\Project1\Project1.vcxproj" (Build target(s)).
+         main.cpp
+         Generating Code...
+     1>Done Building Project "C:\Github Repositories\Artificial-Intelligence-for-games\AIEProjects-StarterTemplate\Project1\Project1.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:08.32
+Time Elapsed 00:00:04.20

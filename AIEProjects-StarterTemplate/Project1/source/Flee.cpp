@@ -1,23 +1,23 @@
-#include "Seek.h"
+#include "Flee.h"
 
-Seek::Seek()
+Flee::Flee()
 {
 
 }
 
-Seek::~Seek()
+Flee::~Flee()
 {
 
 }
 
-void Seek::Update(Agent* agent_, float deltaTime_)
+void Flee::Update(Agent* agent_, float deltaTime_)
 {
-	//Seek towards target
+	//Flee from target
 
 	if (agent_->GetAgentPosition() != agent_->GetTargetPosition())
 	{
-		//Calculate vector to target
-		vec2	distance = (agent_->GetTargetPosition() - agent_->GetAgentPosition());// *agent_->GetMaxSpeed();
+		//Calculate vector away from target - Note the order of subtraction is swapped
+		vec2	distance = (agent_->GetAgentPosition() - agent_->GetTargetPosition());// *agent_->GetMaxSpeed();
 
 		//Calculate magnitude in order to normalise
 		float	magnitude = sqrtf(((distance.x * distance.x) + (distance.y * distance.y)));

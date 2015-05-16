@@ -5,11 +5,10 @@
 #include "Agent.h"
 #include "IBehaviour.h"
 
-class Seek : public IBehaviour
+class Flee : public IBehaviour
 {
 public:
-	Seek();
-	~Seek();
-
+	Flee();
+	~Flee();
 	virtual void Update(Agent* agent_, float deltaTime_);
 };

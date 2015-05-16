@@ -16,6 +16,9 @@
 #include "IBehaviour.h"
 #include "KeyboardController.h"
 #include "DrunkenModifier.h"
+#include "Seek.h"
+#include "Flee.h"
+#include "Wander.h"
 
 using glm::vec2;
 using std::shared_ptr;
@@ -24,14 +27,23 @@ using std::make_shared;
 class Agent
 {
 public:
-			Agent(std::shared_ptr<Texture> texture_);
-			~Agent();
+										Agent(std::shared_ptr<Texture> texture_);
+										~Agent();
 
-	virtual void	Update(float deltaTime_);
-	virtual void	Draw(SpriteBatch* spriteBatch_);
+	virtual void						Update(float deltaTime_);
+	virtual void						Draw(SpriteBatch* spriteBatch_);
 
-	void			SetAcceleration(vec2 acceleration_);	//AddForce
-	void			AddForce(float force_);
+	void								SetAcceleration(vec2 acceleration_);
+	void								AddForce(float force_);
+	void								AddForce(vec2 force_);
+	void								SetTargetPosition(vec2 targetPosition_) { targetPosition = targetPosition_; }
+
+	float								GetMaxSpeed() { return maxSpeed; }
+	float								GetHeading() { return heading; }
+	vec2/*std::shared_ptr<vec2>*/		GetTargetPosition() { return targetPosition; }
+	vec2								GetAgentPosition() { return position; }
+	vec2								GetVelocity() { return velocity; }
+	vec2								GetNormalisedVelocity();
 
 private:
 	std::shared_ptr<Texture>			texture;
@@ -44,6 +56,9 @@ private:
 	vec2								position;
 	vec2								velocity;
 	vec2								acceleration;
+
+
+	vec2/*shared_ptr<vec2>*/			targetPosition;
 };
 
 /*

@@ -5,11 +5,15 @@
 #include "Agent.h"
 #include "IBehaviour.h"
 
-class Seek : public IBehaviour
+class Wander : public IBehaviour
 {
 public:
-	Seek();
-	~Seek();
-
+	Wander();
+	~Wander();
 	virtual void Update(Agent* agent_, float deltaTime_);
+
+private:
+	float radius;
+	float distance;
+	float jitter;
 };

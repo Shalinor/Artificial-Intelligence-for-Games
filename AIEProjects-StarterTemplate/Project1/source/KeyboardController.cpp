@@ -12,6 +12,11 @@ KeyboardController::~KeyboardController()
 
 void KeyboardController::Update(Agent* agent_, float deltaTime_)
 {
+	if (input->IsMouseButtonDown(0))												//If LMB clicked
+	{
+		agent_->SetTargetPosition(vec2(input->GetMouseX(), input->GetMouseY()));	//Set agent's target position
+	}
+
 	vec2 acceleration = {0.0f, 0.0f};
 
 	if (input->IsKeyDown(GLFW_KEY_W))

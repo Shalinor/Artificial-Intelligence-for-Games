@@ -64,6 +64,7 @@ void Game1::Draw()
 	m_spritebatch->End();
 }
 
+
 void Game1::LoadMenu()
 {
 	std::ifstream file("menu.txt", std::ios_base::in | std::ios_base::binary);

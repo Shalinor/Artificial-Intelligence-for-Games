@@ -15,6 +15,7 @@
 
 #include "IBehaviour.h"
 #include "KeyboardController.h"
+#include "DrunkenModifier.h"
 
 using glm::vec2;
 using std::shared_ptr;
@@ -29,19 +30,20 @@ public:
 	virtual void	Update(float deltaTime_);
 	virtual void	Draw(SpriteBatch* spriteBatch_);
 
-	void	AddForce(vec2 force_);
-	vec2	GetHeading();
+	void			SetAcceleration(vec2 acceleration_);	//AddForce
+	void			AddForce(float force_);
 
 private:
 	std::shared_ptr<Texture>			texture;
 
 	std::list<shared_ptr<IBehaviour>>	behaviours;
 
+	float								maxSpeed;
+	float								heading;
+
 	vec2								position;
 	vec2								velocity;
 	vec2								acceleration;
-	vec2								force;
-	vec2								heading;		//***
 };
 
 /*

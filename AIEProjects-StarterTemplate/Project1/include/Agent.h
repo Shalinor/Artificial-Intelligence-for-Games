@@ -33,10 +33,14 @@ public:
 	virtual void						Update(float deltaTime_);
 	virtual void						Draw(SpriteBatch* spriteBatch_);
 
-	void								SetAcceleration(vec2 acceleration_);
+	void								AddBehaviour(shared_ptr<IBehaviour> newBehaviour_);
 	void								AddForce(float force_);
 	void								AddForce(vec2 force_);
+	void								SetActiveArea(vec2 min_, vec2 max_) { areaMin = min_; areaMax = max_; }
+	void								SetPosition(vec2 position_) { position = position_; }
+	void								SetAcceleration(vec2 acceleration_) { acceleration = acceleration_; }
 	void								SetTargetPosition(vec2 targetPosition_) { targetPosition = targetPosition_; }
+	void								SetTargetAgent(shared_ptr<Agent> target_) { targetAgent = target_; }
 
 	float								GetMaxSpeed() { return maxSpeed; }
 	float								GetHeading() { return heading; }
@@ -57,8 +61,12 @@ private:
 	vec2								velocity;
 	vec2								acceleration;
 
+	vec2								areaMin;
+	vec2								areaMax;
+
 
 	vec2/*shared_ptr<vec2>*/			targetPosition;
+	shared_ptr<Agent>					targetAgent;
 };
 
 /*

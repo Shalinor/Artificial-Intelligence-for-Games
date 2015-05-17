@@ -5,23 +5,27 @@
 Agent::Agent(std::shared_ptr<Texture> texture_)
 {
 	texture = texture_;
-
+	
 	//Add behaviours to agent
-	behaviours.push_back(make_shared<Wander>());
+//	behaviours.push_back(make_shared<Wander>());
 
-	behaviours.push_back(make_shared<KeyboardController>());
+//	behaviours.push_back(make_shared<KeyboardController>());
 //	behaviours.push_back(make_shared<DrunkenModifier>());
-	behaviours.push_back(make_shared<Seek>());
+//	behaviours.push_back(make_shared<Seek>());
 //	behaviours.push_back(make_shared<Flee>());
 
 	//Set default/initial values
-	maxSpeed = 1.f;
+	maxSpeed = 0.5f;
 	heading = 0.f;
 
 	position = vec2(250.f, 200.f);
 	velocity = vec2(0.f);
 	acceleration = vec2(0.f);
 
+	areaMin = vec2(0.f);
+	areaMax = vec2(500.f, 500.f);
+
+	targetAgent = nullptr;
 	targetPosition = position;
 }
 
@@ -35,6 +39,11 @@ void Agent::Update(float deltaTime_)
 	//TODO: Sensing Calculations
 	//TODO: Thinking Calculations
 	//			Add or remove behaviours from the behaviours list
+
+	if (targetAgent != nullptr)
+	{
+		targetPosition = targetAgent->GetAgentPosition();
+	}
 
 	//Acting
 	for (auto iterator = behaviours.begin(); iterator != behaviours.end(); ++iterator)
@@ -88,6 +97,34 @@ void Agent::Update(float deltaTime_)
 	//Clear acceleration - Not required as the acceleration is created anew within the keyboardController per frame 
 	//acceleration = { 0.0f, 0.0f };
 
+	//bounce off area walls
+	if (((position.x + velocity.x) >= areaMax.x) || ((position.x + velocity.x) <= areaMin.x))
+	{
+		velocity.x = -velocity.x;
+	}
+
+	if (((position.y + velocity.y) >= areaMax.y) || ((position.y + velocity.y) <= areaMin.y))
+	{
+		velocity.y = -velocity.y;
+	}
+	/*if ((position.x + velocity.x) >= areaMax.x)
+	{
+		velocity.x = -velocity.x;
+	}
+	else if ((position.x + velocity.x) <= areaMin.x)
+	{
+		velocity.x = -velocity.x;
+	}
+
+	if ((position.y + velocity.y) >= areaMax.y)
+	{
+		velocity.y = -velocity.y;
+	}
+	else if ((position.y + velocity.y) <= areaMin.y)
+	{
+		velocity.y = -velocity.y;
+	}*/
+
 	//Apply velocity to position
 	position += velocity;
 
@@ -102,9 +139,19 @@ void Agent::Draw(SpriteBatch* spriteBatch_)
 	spriteBatch_->DrawSprite(texture.get(), position.x, position.y, 16.f, 16.f, heading);
 }
 
-void Agent::SetAcceleration(vec2 acceleration_)
+void Agent::AddBehaviour(shared_ptr<IBehaviour> newBehaviour_)
 {
-	acceleration = acceleration_;
+	//Check for pre-existing behaviour
+	for (auto iterator = behaviours.begin(); iterator != behaviours.end(); ++iterator)
+	{
+		if ((*iterator)->type == newBehaviour_->type)
+		{
+			return;	//Agent already using supplied behaviour type
+		}
+	}
+
+	//Agent doesn't have the provided behaviour so add it
+	behaviours.push_back(newBehaviour_);
 }
 
 void Agent::AddForce(float force_)
@@ -119,6 +166,11 @@ void Agent::AddForce(vec2 force_)
 	//Get the force required to change the agents direction towards its target and assign it to the acceleration
 	acceleration = force_ - velocity;
 }
+
+//void Agent::SetAcceleration(vec2 acceleration_)
+//{
+//	acceleration = acceleration_;
+//}
 
 vec2 Agent::GetNormalisedVelocity()
 {

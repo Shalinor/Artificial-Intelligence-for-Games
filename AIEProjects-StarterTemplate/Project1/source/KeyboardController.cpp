@@ -1,6 +1,6 @@
 #include "KeyboardController.h"
 
-KeyboardController::KeyboardController()
+KeyboardController::KeyboardController() : IBehaviour(Type::KeyboardControllerBehaviour)
 {
 	input = Input::GetSingleton();
 }

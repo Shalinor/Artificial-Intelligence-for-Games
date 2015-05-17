@@ -1,6 +1,6 @@
 #include "Flee.h"
 
-Flee::Flee()
+Flee::Flee() : IBehaviour(Type::FleeBehaviour)
 {
 
 }

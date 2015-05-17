@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Wander::Wander()
+Wander::Wander() : IBehaviour(Type::WanderBehaviour)
 {
 	/*
 	 *	Larger radius / lower distance == more turns
@@ -12,7 +12,7 @@ Wander::Wander()
 
 	radius = 250.f;
 	distance = 100.f;
-	jitter = 5.f;	//vec2? +/- 2 or so???  <-Jason in the Tutorial
+	jitter = 2.f;	//vec2? +/- 2 or so???  <-Jason in the Tutorial
 }
 
 Wander::~Wander()

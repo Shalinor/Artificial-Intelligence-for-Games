@@ -11,6 +11,9 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 {
 	srand(time(NULL));
 
+	winWidth = windowWidth;
+	winHeight = windowHeight;
+
 	m_spritebatch = SpriteBatch::Factory::Create(this, SpriteBatch::GL3);
 
 	input = Input::GetSingleton();
@@ -25,7 +28,35 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	//defaultTexture			= new Texture("./Images/circle_blue.png");
 	defaultTexture = make_shared<Texture>("./Images/Arrow.png");
 
-	agent = make_shared<Agent>(defaultTexture);
+	agentA = make_shared<Agent>(defaultTexture);
+	agentB = make_shared<Agent>(defaultTexture);
+	agentC = make_shared<Agent>(defaultTexture);
+	agentD = make_shared<Agent>(defaultTexture);
+
+	agentA->SetPosition(vec2((rand() % winWidth), (rand() % winHeight)));
+	agentB->SetPosition(vec2((rand() % winWidth), (rand() % winHeight)));
+	agentC->SetPosition(vec2(winWidth/2.f, winHeight/2.f/*(rand() % winWidth), (rand() % winHeight)*/));
+	agentD->SetPosition(vec2((rand() % winWidth), (rand() % winHeight)));
+	
+	agentA->SetActiveArea(vec2(0.f, 0.f), vec2(winWidth, winHeight));
+	agentB->SetActiveArea(vec2(0.f, 0.f), vec2(winWidth, winHeight));
+	agentC->SetActiveArea(vec2(0.f, 0.f), vec2(winWidth, winHeight));
+	agentD->SetActiveArea(vec2(0.f, 0.f), vec2(winWidth, winHeight));
+
+	agentA->AddBehaviour(make_shared<Seek>());
+
+	agentB->AddBehaviour(make_shared<Wander>());
+	agentB->AddBehaviour(make_shared<Seek>());
+
+	agentC->AddBehaviour(make_shared<Flee>());
+
+	agentD->AddBehaviour(make_shared<Wander>());
+	agentD->AddBehaviour(make_shared<KeyboardController>());
+	agentD->AddBehaviour(make_shared<Seek>());
+
+	agentA->SetTargetAgent(agentB);
+	agentC->SetTargetAgent(agentD);
+
 }
 
 Game1::~Game1()
@@ -45,7 +76,10 @@ void Game1::Update(float deltaTime_)
 		LoadMenu();
 	}
 
-	agent->Update(deltaTime_);
+	agentA->Update(deltaTime_);
+	agentB->Update(deltaTime_);
+	agentC->Update(deltaTime_);
+	agentD->Update(deltaTime_);
 }
 
 void Game1::Draw()
@@ -56,7 +90,17 @@ void Game1::Draw()
 	m_spritebatch->Begin();
 
 	// TODO: draw stuff.
-	agent->Draw(m_spritebatch);
+	agentA->Draw(m_spritebatch);
+	m_spritebatch->DrawString(menuFont, "A", agentA->GetAgentPosition().x, agentA->GetAgentPosition().y);
+
+	agentB->Draw(m_spritebatch);
+	m_spritebatch->DrawString(menuFont, "B", agentB->GetAgentPosition().x, agentB->GetAgentPosition().y);
+
+	agentC->Draw(m_spritebatch);
+	m_spritebatch->DrawString(menuFont, "C", agentC->GetAgentPosition().x, agentC->GetAgentPosition().y);
+
+	agentD->Draw(m_spritebatch);
+	m_spritebatch->DrawString(menuFont, "D", agentD->GetAgentPosition().x, agentD->GetAgentPosition().y);
 
 	//Draw menu
 	m_spritebatch->DrawString(menuFont, menuText, menuPos.x, menuPos.y);

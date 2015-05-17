@@ -1,7 +1,7 @@
 #include "DrunkenModifier.h"
 #include <iostream>
 
-DrunkenModifier::DrunkenModifier()
+DrunkenModifier::DrunkenModifier() : IBehaviour(Type::DrunkenModifierBehaviour)
 {
 	accumulatedTime = 0.0f;
 }

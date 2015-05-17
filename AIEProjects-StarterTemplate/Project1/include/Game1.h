@@ -46,7 +46,10 @@ protected:
 	//Texture*			defaultTexture;
 	shared_ptr<Texture>	defaultTexture;
 
-	shared_ptr<Agent>	agent;
+	shared_ptr<Agent>	agentA;
+	shared_ptr<Agent>	agentB;
+	shared_ptr<Agent>	agentC;
+	shared_ptr<Agent>	agentD;
 	
 	//Menu
 	Font*				menuFont;
@@ -54,6 +57,10 @@ protected:
 	vec2				menuPos;
 
 	void				LoadMenu();
+
+
+	unsigned int winWidth;
+	unsigned int winHeight;
 };
 
 //#endif

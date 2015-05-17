@@ -9,7 +9,11 @@ enum Type
 	DrunkenModifierBehaviour,
 	SeekBehaviour,
 	FleeBehaviour,
-	WanderBehaviour
+	WanderBehaviour,
+	PursueBehaviour,
+	EvadeBehaviour,
+	ArrivalBehaviour,
+	AvoidBehaviour
 };
 
 class IBehaviour

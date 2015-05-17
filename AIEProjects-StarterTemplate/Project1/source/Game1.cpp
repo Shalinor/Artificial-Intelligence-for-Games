@@ -48,7 +48,8 @@ Game1::Game1(unsigned int windowWidth, unsigned int windowHeight, bool fullscree
 	agentB->AddBehaviour(make_shared<Wander>());
 	agentB->AddBehaviour(make_shared<Seek>());
 
-	agentC->AddBehaviour(make_shared<Flee>());
+	//agentC->AddBehaviour(make_shared<Flee>());
+	agentC->AddBehaviour(make_shared<Pursue>());
 
 	agentD->AddBehaviour(make_shared<Wander>());
 	agentD->AddBehaviour(make_shared<KeyboardController>());

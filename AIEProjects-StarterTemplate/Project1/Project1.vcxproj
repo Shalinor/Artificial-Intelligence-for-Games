@@ -93,6 +93,7 @@
     <ClCompile Include="source\Game1.cpp" />
     <ClCompile Include="source\IBehaviour.cpp" />
     <ClCompile Include="source\KeyboardController.cpp" />
+    <ClCompile Include="source\Pursue.cpp" />
     <ClCompile Include="source\Seek.cpp" />
     <ClCompile Include="source\Wander.cpp" />
   </ItemGroup>
@@ -103,6 +104,7 @@
     <ClInclude Include="include\Game1.h" />
     <ClInclude Include="include\IBehaviour.h" />
     <ClInclude Include="include\KeyboardController.h" />
+    <ClInclude Include="include\Pursue.h" />
     <ClInclude Include="include\Seek.h" />
     <ClInclude Include="include\Wander.h" />
   </ItemGroup>

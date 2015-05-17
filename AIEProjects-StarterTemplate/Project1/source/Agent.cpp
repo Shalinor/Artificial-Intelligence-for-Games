@@ -15,7 +15,7 @@ Agent::Agent(std::shared_ptr<Texture> texture_)
 //	behaviours.push_back(make_shared<Flee>());
 
 	//Set default/initial values
-	maxSpeed = 0.5f;
+	maxSpeed = 5.f;
 	heading = 0.f;
 
 	position = vec2(250.f, 200.f);
@@ -137,6 +137,12 @@ void Agent::Update(float deltaTime_)
 void Agent::Draw(SpriteBatch* spriteBatch_)
 {
 	spriteBatch_->DrawSprite(texture.get(), position.x, position.y, 16.f, 16.f, heading);
+
+//	spriteBatch_->DrawLine(position.x, position.y, targetPosition.x, targetPosition.y);
+	if (targetAgent != nullptr)
+	{
+		spriteBatch_->DrawLine(position.x, position.y, ((targetPosition.x + targetAgent->GetVelocity().x)), ((targetPosition.y + targetAgent->GetVelocity().y)));
+	}
 }
 
 void Agent::AddBehaviour(shared_ptr<IBehaviour> newBehaviour_)
@@ -167,10 +173,15 @@ void Agent::AddForce(vec2 force_)
 	acceleration = force_ - velocity;
 }
 
-//void Agent::SetAcceleration(vec2 acceleration_)
-//{
-//	acceleration = acceleration_;
-//}
+vec2 Agent::GetTargetVelocity()
+{
+	if (targetAgent != nullptr)
+	{
+		return targetAgent->GetVelocity();
+	}
+
+	return vec2(0.f);
+}
 
 vec2 Agent::GetNormalisedVelocity()
 {

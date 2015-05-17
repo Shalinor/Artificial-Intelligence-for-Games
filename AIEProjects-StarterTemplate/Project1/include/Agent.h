@@ -19,6 +19,7 @@
 #include "Seek.h"
 #include "Flee.h"
 #include "Wander.h"
+#include "Pursue.h"
 
 using glm::vec2;
 using std::shared_ptr;
@@ -45,6 +46,7 @@ public:
 	float								GetMaxSpeed() { return maxSpeed; }
 	float								GetHeading() { return heading; }
 	vec2/*std::shared_ptr<vec2>*/		GetTargetPosition() { return targetPosition; }
+	vec2								GetTargetVelocity();
 	vec2								GetAgentPosition() { return position; }
 	vec2								GetVelocity() { return velocity; }
 	vec2								GetNormalisedVelocity();
